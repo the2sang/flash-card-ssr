@@ -1,5 +1,9 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
+import Providers from "@/app/providers";
+import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
+import HeadNavBar from "@/components/HeadNavBar";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -14,8 +18,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+      <html lang="en">
+      <Providers>
+        <ReactQueryDevtools />
+        <body className="mx-12 lg:mx-96 bg-black-100 text-white">
+          <HeadNavBar />
+          {children}
+          <Footer />
+        </body>
+      </Providers>
+      </html>
   )
 }
