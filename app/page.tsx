@@ -2,14 +2,9 @@ import getQueryClient from "./getQueryClient"
 import Hydrate from "./QueryHydrate"
 import { dehydrate } from "@tanstack/query-core"
 import {getMemoryCards} from "@/app/api/memoryCardApi";
-import {Cards} from "@/components/Cards";
-import Card from "@/components/Card";
 import React from "react";
-import NewCards from "@/app/newCards/page";
 import MyCards from "@/components/MyCards";
 
-// import Posts from "@/components/Posts"
-// import PostForm from "@/components/PostForm"
 
 type ParamProps = {
   param: number | 1;

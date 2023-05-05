@@ -1,9 +1,11 @@
-import './globals.css'
+import './globals.css';
+import './CardsStyles.css';
 import { Inter } from 'next/font/google'
 import Providers from "@/app/providers";
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 import HeadNavBar from "@/components/HeadNavBar";
 import Footer from "@/components/Footer";
+
 
 const inter = Inter({ subsets: ['latin'] })
 
