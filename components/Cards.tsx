@@ -1,13 +1,21 @@
+"use client"
+
 import {QueryClient, useQuery, useQueryClient} from "@tanstack/react-query";
 import React, {useState} from "react";
-import {MemoryCard, MemoryCards} from "@/types";
+import {MemoryCard, MemoryCards} from "@/types/types";
 import Card from "@/components/Card";
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
-import {fetchData} from "@/app/memoryCards/page";
+import {getMemoryCards} from "@/app/api/memoryCardApi";
 
 type ParamProps = {
   param: number;
 }
+
+export const fetchData = async ({param = 1}: ParamProps ) : Promise<MemoryCards> => {
+  const data = await getMemoryCards( param);
+  return data;
+};
+
 export function Cards() {
 
   const queryClient: QueryClient = useQueryClient();

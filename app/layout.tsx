@@ -21,7 +21,7 @@ export default function RootLayout({
       <html lang="en">
       <Providers>
         <ReactQueryDevtools />
-        <body className="mx-12 lg:mx-96 bg-black-100 text-white">
+        <body className={inter.className}>
           <HeadNavBar />
           {children}
           <Footer />

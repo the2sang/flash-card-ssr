@@ -2,26 +2,135 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Commissioner&display=swap");
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+body {
+  margin: 20px auto;
+  background: #242934;
+  font-family: var(--fontFamily);
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
 }
+
+.card {
+  margin: 20px auto;
+  padding-left: 10px;
+  background: var(--grad-one);
+  height: 550px;
+  width: 650px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* flex-direction: column; */
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 300;
+  border-radius: var(--border-radius);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1), 0px 4px 8px rgba(0, 0, 0, 0.1),
+  0px 8px 16px rgba(0, 0, 0, 0.1), 0px 16px 32px rgba(0, 0, 0, 0.1);
+  position: relative;
+  cursor: pointer;
+  /* animated interactivity */
+  transition: 250ms;
+  transform-style: preserve-3d;
+  transform: perspective(900px) rotateY(var(--rotate-y, 0))
+  translateY(var(--translate-y, 0));
+}
+
+/* when card is clicked adding .side class */
+.side {
+  background: var(--grad-two);
+  transform: rotateY(-180deg);
+}
+
+/* card content */
+.card .front,
+.card .back {
+  position: absolute;
+  padding: 1rem;
+  backface-visibility: hidden;
+}
+
+.card .front {
+  transform: rotateY(0deg);
+}
+
+.card.side .front {
+  opacity: 0;
+  display: none;
+}
+
+.card .back {
+  transform: rotateY(180deg);
+}
+
+.card small {
+  opacity: 0.7;
+  font-size: 0.7em;
+  position: absolute;
+  top: 3rem;
+}
+
+.card.side small {
+  transform: rotateY(180deg);
+}
+
+.card small span {
+  display: block;
+  text-align: center;
+  font-size: small;
+}
+
+.loading {
+  color: white;
+  width: 350px;
+  text-align: center;
+  margin: 20px auto;
+}
+.card.side .front {
+  opacity: 0;
+  display: none;
+}
+
+.card .back {
+  transform: rotateY(180deg);
+}
+
+.card small {
+  opacity: 0.7;
+  font-size: 0.7em;
+  position: absolute;
+  top: 3rem;
+}
+
+.card.side small {
+  transform: rotateY(180deg);
+}
+
+.card small span {
+  display: block;
+  text-align: center;
+  font-size: large;
+}
+
+.loading {
+  color: white;
+  width: 350px;
+  text-align: center;
+  margin: 20px auto;
+}
+
+
