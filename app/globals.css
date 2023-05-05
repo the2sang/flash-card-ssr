@@ -31,6 +31,7 @@ header {
   width: var(--layout-width);
   margin: auto;
   display: grid;
+  padding-bottom: 5px;
   grid-template-columns: 1fr 1fr;
 }
 
@@ -41,7 +42,7 @@ header {
   font-size: 0.9em;
   padding: 0.8em 1.2em;
   border-radius: var(--border-radius);
-  margin: 1em 5px;
+  margin: 1.2em 5px;
   opacity: 0.85;
   transition: all 0.25s;
   cursor: pointer;
@@ -64,6 +65,7 @@ header {
 
 .cardNumber {
   color: white;
+  margin-top: 15px;
   display: flex;
   justify-content: center;
 }

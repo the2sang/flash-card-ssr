@@ -5,6 +5,7 @@ import Providers from "@/app/providers";
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 import HeadNavBar from "@/components/HeadNavBar";
 import Footer from "@/components/Footer";
+import React from "react";
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -22,11 +23,11 @@ export default function RootLayout({
   return (
       <html lang="en">
       <Providers>
-        <ReactQueryDevtools />
+        {/*<ReactQueryDevtools />*/}
         <body className={inter.className}>
-          <HeadNavBar />
+        <HeadNavBar />
           {children}
-          <Footer />
+        <Footer />
         </body>
       </Providers>
       </html>

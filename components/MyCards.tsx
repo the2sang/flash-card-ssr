@@ -1,15 +1,18 @@
 "use client"
-import { AnimatePresence, motion } from "framer-motion"
 import Card from "@/components/Card";
 import useCards from "@/hook/useCards";
-import React, {useState} from "react";
-import {MemoryCard} from "@/types/types";
+import React, {FC, useState} from "react";
+import {MemoryCard, MemoryCards} from "@/types/types";
 
-const MyCards = () => {
-  const { data, isLoading, error } = useCards()
+interface CardProps {
+  param: number
+}
+
+const MyCards: FC<CardProps> = ({param})  => {
+  const { data, isLoading, error } = useCards(param)
 
   // https://www.debuggr.io/react-map-of-undefined/
-  const cards = data?.list.map((card: MemoryCard) => {
+  const cards : MemoryCards = data?.list.map((card: MemoryCard) => {
     return <Card card={card} key={card.id} />;
   });
 
@@ -24,6 +27,7 @@ const MyCards = () => {
     setCurrent(current + 1);
   }
 
+  // @ts-ignore
   return (
     <div>
       {/* number of cards */}

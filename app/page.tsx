@@ -4,15 +4,13 @@ import { dehydrate } from "@tanstack/query-core"
 import {getMemoryCards} from "@/app/api/memoryCardApi";
 import React from "react";
 import MyCards from "@/components/MyCards";
-
-
-type ParamProps = {
-  param: number | 1;
-}
+import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
+import HeadNavBar from "@/components/HeadNavBar";
+import Footer from "@/components/Footer";
 
 
 export default async function Home() {
-  const queryClient = getQueryClient()
+  const queryClient = getQueryClient();
   await queryClient.prefetchQuery(["cards"], () => {
 
     const cards = getMemoryCards(1)
@@ -25,8 +23,11 @@ export default async function Home() {
       <Hydrate state={dehydratedState}>
         {/*<PostForm />*/}
         {/*<Posts />*/}
-        <MyCards />
+
+        <MyCards param={1}   />
+
       </Hydrate>
+      <ReactQueryDevtools initialIsOpen />
     </main>
   )
 }
