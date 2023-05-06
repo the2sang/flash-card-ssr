@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query"
-import { MemoryCards } from "@/types/types";
+import {MemoryCard, MemoryCards} from "@/types/types";
 
-const useCards  = ( param: number) => {
-  return useQuery<MemoryCards[]>({
+const useCards : MemoryCards  = ( param: number) => {
+  return useQuery<MemoryCards>({
     queryKey: ["cards"],
     queryFn: () =>
       fetch(`http://localhost:8080/api/memorycard/middlecode?param=${param}`)

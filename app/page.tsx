@@ -5,8 +5,6 @@ import {getMemoryCards} from "@/app/api/memoryCardApi";
 import React from "react";
 import MyCards from "@/components/MyCards";
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
-import HeadNavBar from "@/components/HeadNavBar";
-import Footer from "@/components/Footer";
 
 
 export default async function Home() {

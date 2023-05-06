@@ -1,39 +1,39 @@
-import {MainCategory} from "@/types/types";
+import {TMainCategory} from "@/types/types";
 
-const baseUrl = "http://localhost:3000";
+const baseUrl = "http://localhost:8080/api";
 
-export const getAllTodos = async (): Promise<MainCategory[]> => {
-  const res = await fetch(`${baseUrl}/tasks`, {cache: 'no-store'});
-  const todos = await res.json();
-  return todos;
+export const getAllMainCategory = async (): Promise<TMainCategory[]> => {
+  const res = await fetch(`${baseUrl}/mainCategory/all`, {cache: 'no-store'});
+  const mainCategorys = await res.json();
+  return mainCategorys;
 }
 
-export const addTodo = async (todo: ITasks): Promise<ITasks> => {
-  const res = await fetch(`${baseUrl}/tasks`, {
+export const addMainCategory = async (maincategory: TMainCategory): Promise<TMainCategory> => {
+  const res = await fetch(`${baseUrl}/mainCategory/new`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(todo)
+    body: JSON.stringify(maincategory)
   })
-  const newTodo = await res.json();
-  return newTodo;
+  const newMainCategory = await res.json();
+  return newMainCategory;
 }
 
-export const editTodo = async (todo: ITasks): Promise<ITasks> => {
-  const res = await fetch(`${baseUrl}/tasks/${todo.id}`, {
+export const editMainCategory = async (mainCategory: TMainCategory): Promise<TMainCategory> => {
+  const res = await fetch(`${baseUrl}/mainCategory/${mainCategory.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(todo)
+    body: JSON.stringify(mainCategory)
   })
-  const updatedTodo = await res.json();
-  return updatedTodo;
+  const updatedMainCategory = await res.json();
+  return updatedMainCategory;
 }
 
-export const deleteTodo = async (id: string): Promise<void> => {
-  await fetch(`${baseUrl}/tasks/${id}`, {
+export const deleteMainCategory = async (id: string | undefined): Promise<void> => {
+  await fetch(`${baseUrl}/mainCategory/${id}`, {
     method: 'DELETE'
   })
 }

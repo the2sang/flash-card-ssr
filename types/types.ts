@@ -1,9 +1,16 @@
-export type MainCategory = {
-  id: number
+export type TMainCategory = {
+  id?: string
   name: string
 }
 
-export type MiddleCategory = {
+export type TMainCategorys =  {
+  success: string
+  code: string
+  msg: string
+  list : TMainCategory[]
+}
+
+export type TMiddleCategory = {
   id: number
   name: string
   mainCategoryDto: {

@@ -1,17 +1,17 @@
 "use client"
 
-import {MainCategory} from "@/types/types";
+import {TMainCategory} from "@/types/types";
 import {FiEdit, FiTrash2} from "react-icons/fi";
-import Modal from "./Modal";
+import Modal from "@/components/Modal";
 import React, {FormEventHandler, useState} from "react";
 import {useRouter} from "next/navigation";
-// import {deleteMainCategory, editCategory} from "@/api";
+import {deleteMainCategory, editMainCategory} from "@/app/api/mainCategoryApi";
 
-interface TaskProps {
-  mainCategory: MainCategory
+interface CategoryProps {
+  mainCategory: TMainCategory
 }
 
-const MainCategory: React.FC<TaskProps> = ({mainCategory}) => {
+const MainCategory: React.FC<CategoryProps> = ({mainCategory}) => {
   const router = useRouter();
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
@@ -19,7 +19,7 @@ const MainCategory: React.FC<TaskProps> = ({mainCategory}) => {
 
   const handleSubmitEditCategory: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    await editCategory({
+    await editMainCategory({
       id: mainCategory.id,
       name: mainCategory.name
     });
@@ -27,8 +27,8 @@ const MainCategory: React.FC<TaskProps> = ({mainCategory}) => {
     router.refresh();
   }
 
-  const handleDeleteCategory = async (id: string) => {
-    await deleteCategory(id);
+  const handleDeleteCategory = async (id: string | undefined) => {
+    await deleteMainCategory(id);
     setOpenModalDelete(false);
     router.refresh();
   }
@@ -61,7 +61,7 @@ const MainCategory: React.FC<TaskProps> = ({mainCategory}) => {
         </Modal>
         <FiTrash2 onClick={() => setOpenModalDelete(true)} cursor="pointer" className="text-red-500" size={20} />
         <Modal modalOpen={openModalDelete} setModalOpen={setOpenModalDelete} >
-          <h3 className="text-lg">Are you sure? you want to delete this task?</h3>
+          <h3 className="text-lg">선택한 대분류 코드를 삭제 할까요?</h3>
           <div className="modal-action">
             <button className="btn" onClick={() => handleDeleteCategory(mainCategory.id)}>
               Yes

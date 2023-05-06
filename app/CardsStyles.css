@@ -70,7 +70,8 @@
 
 .loading {
   color: white;
-  width: 350px;
+  width: 700px;
+  height: 550px;
   text-align: center;
   margin: 20px auto;
 }
