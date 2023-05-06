@@ -24,12 +24,12 @@ const AddMainCategory = () => {
 
 
   return (
-    <div className="flex justify-center ">
+    <div className="justify-center ml-10 mr-10 mt-5 mb-5">
       <button
         onClick={() => setModalOpen(true) }
         className='btn btn-primary w-full'
       >
-        대분류 코드 추가하기 <AiOutlinePlus size={18} />
+        대분류 코드 추가하기<AiOutlinePlus size={18} />
       </button>
       <Modal modalOpen={modalOpen} setModalOpen={setModalOpen} >
         <form onSubmit={handleSubmitNewMainCategory}>

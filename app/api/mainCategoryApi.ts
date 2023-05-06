@@ -1,9 +1,9 @@
-import {TMainCategory} from "@/types/types";
+import {TMainCategory, TMainCategorys} from "@/types/types";
 
 const baseUrl = "http://localhost:8080/api";
 
-export const getAllMainCategory = async (): Promise<TMainCategory[]> => {
-  const res = await fetch(`${baseUrl}/mainCategory/all`, {cache: 'no-store'});
+export const getAllMainCategory = async (): Promise<TMainCategorys> => {
+  const res = await fetch(`${baseUrl}/mainCategory/all`);
   const mainCategorys = await res.json();
   return mainCategorys;
 }
@@ -21,7 +21,7 @@ export const addMainCategory = async (maincategory: TMainCategory): Promise<TMai
 }
 
 export const editMainCategory = async (mainCategory: TMainCategory): Promise<TMainCategory> => {
-  const res = await fetch(`${baseUrl}/mainCategory/${mainCategory.id}`, {
+  const res = await fetch(`${baseUrl}/mainCategory/update`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import {MemoryCard, MemoryCards} from "@/types/types";
+import {MemoryCards} from "@/types/types";
 
 const useCards : MemoryCards  = ( param: number) => {
   return useQuery<MemoryCards>({

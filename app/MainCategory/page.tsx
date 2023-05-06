@@ -2,28 +2,54 @@
 
 import AddMainCategory from "@/components/MainCategory/AddMainCategory";
 import MainCategoryList from "@/components/MainCategory/MainCategoryList";
-import {FC} from "react";
-import {TMainCategorys} from "@/types/types";
+import React, {FC} from "react";
 import useMainCategorys from "@/hook/useMainCategorys";
+import {dehydrate, QueryClient} from "@tanstack/query-core";
+import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
+import Hydrate from "@/app/QueryHydrate";
 
 type Props = {}
 
 //async function MainCategoryPage({}: Props) {
 const MainCategoryPage: FC<Props> = async ({}: Props) => {
 
-  const { data, isLoading, error } = useMainCategorys<TMainCategorys>()
-
-  // const maincategorys = await getAllMainCategory();
-  console.log(data);
+  // const queryClient = new QueryClient({
+  //   defaultOptions: {
+  //     queries: {
+  //       refetchOnWindowFocus: false,
+  //       refetchOnMount: false,
+  //       retry: false,
+  //       enabled: false,
+  //     }
+  //   }
+  // });
+  //
+  // const dehydratedState = dehydrate(queryClient)
+  //
+  // console.log(queryClient);
+  //
+  // const { data, isLoading, isError } = useMainCategorys();
+  //
+  // //console.log(data);
+  //
+  // if (isLoading) {
+  //   return <span>Loading...</span>
+  // }
+  // if (isError) {
+  //   return <span>Error: {isError.message}</span>
+  // }
 
   return (
-    <div style={{width: "500px", height: "700px", display: "flex", justifyContent: "center", padding: "10px"}}>
-      <div className='flex justify-center py-10'>
+    <>
+    <div style={{width: "500px", justifyContent: "center", padding: "10px"}}>
         <h1 className='text-2xl font-bold'>대분류 코드 목록</h1>
-        <AddMainCategory />
-      </div>
-      <MainCategoryList mainCategorys={data} />
     </div>
+    <div className="justify-center">
+      <AddMainCategory />
+      <MainCategoryList  />
+      <ReactQueryDevtools initialIsOpen />
+    </div>
+    </>
   )
 }
 
