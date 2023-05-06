@@ -16,11 +16,11 @@ function HeadNavBar() {
             <title>alt-menu</title>
             <path d="M0 26.016q0 2.496 1.76 4.224t4.256 1.76h20q2.464 0 4.224-1.76t1.76-4.224v-20q0-2.496-1.76-4.256t-4.224-1.76h-20q-2.496 0-4.256 1.76t-1.76 4.256v20zM4 26.016v-20q0-0.832 0.576-1.408t1.44-0.608h20q0.8 0 1.408 0.608t0.576 1.408v20q0 0.832-0.576 1.408t-1.408 0.576h-20q-0.832 0-1.44-0.576t-0.576-1.408zM8 24h16v-4h-16v4zM8 18.016h16v-4h-16v4zM8 12h16v-4h-16v4z"></path>
           </svg>
-          <a className="btn btn-ghost normal-case text-xl">Flash Card Learning</a>
+          <button onClick={() => router.push('/')} className="btn btn-ghost normal-case text-xl">Flash Card Learning</button>
         </div>
         <div className="flex-none">
           <ul className="menu menu-horizontal px-1">
-            <li><a>학습하기</a></li>
+            <li><button onClick={() => router.push('/')}  >학습하기</button></li>
             <li tabIndex={0}>
               <a>
                 코드관리

@@ -8,7 +8,8 @@ import {dehydrate, QueryClient} from "@tanstack/query-core";
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 import Hydrate from "@/app/QueryHydrate";
 
-type Props = {}
+type Props = {
+}
 
 //async function MainCategoryPage({}: Props) {
 const MainCategoryPage: FC<Props> = async ({}: Props) => {

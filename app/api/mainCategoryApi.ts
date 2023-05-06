@@ -29,11 +29,22 @@ export const editMainCategory = async (mainCategory: TMainCategory): Promise<TMa
     body: JSON.stringify(mainCategory)
   })
   const updatedMainCategory = await res.json();
+  //console.log(updatedMainCategory);
   return updatedMainCategory;
 }
 
+// 대분류 삭제
+// export const deleteMainCategory = async (id: string | undefined): Promise<void> => {
+//   console.log('delete:' + id);
+//   await fetch(`${baseUrl}/mainCategory/${id}`, {
+//     method: 'DELETE'
+//   })
+// }
+
+//대분류 삭제
 export const deleteMainCategory = async (id: string | undefined): Promise<void> => {
+  //console.log('delete:' + id);
   await fetch(`${baseUrl}/mainCategory/${id}`, {
-    method: 'DELETE'
+    method: 'POST'
   })
 }
