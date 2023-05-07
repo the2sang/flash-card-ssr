@@ -1,14 +1,30 @@
 "use client"
 
-type Props = {}
+import React from "react";
+import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
+import AddMiddleCategory from "@/components/MiddleCategory/AddMiddleCategory";
+import MiddleCategoryList from "@/components/MiddleCategory/MiddleCategoryList";
 
-function MiddleCat({}: Props) {
+type Props = {
+}
+
+//async function MainCategoryPage({}: Props) {
+const MiddleCategoryPage = () => {
+
+
   return (
     <div>
-      <h1>Middle Category</h1>
+      <div style={{ justifyContent: "center", padding: "10px"}}>
+        <h1 className='text-2xl font-bold'>중분류 코드 목록</h1>
+      </div>
+      <div className="justify-center">
+        <AddMiddleCategory />
+        <MiddleCategoryList    />
+        <ReactQueryDevtools initialIsOpen />
+      </div>
     </div>
   )
 }
 
-export default MiddleCat
+export default MiddleCategoryPage
 

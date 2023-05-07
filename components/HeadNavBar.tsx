@@ -10,7 +10,7 @@ function HeadNavBar() {
 
   return (
     <>
-      <div className="navbar bg-white">
+      <div className="navbar bg-white z-10">
         <div className="flex-1 left-0 ml-2">
           <svg fill="#000000" width="30px" height="30px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
             <title>alt-menu</title>
@@ -26,7 +26,7 @@ function HeadNavBar() {
                 코드관리
                 <svg className="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
               </a>
-              <ul className="p-2 bg-base-100">
+              <ul className="p-2 bg-base-100 z-50">
                 <li><button type="button" onClick={() => router.push('MainCategory')}>대분류코드</button> </li>
                 {/*<li><Link href={'/MainCategory.tsx'} >대분류</Link></li>*/}
                 <li><button type="button" onClick={() => router.push('MiddleCategory')}>중분류코드</button> </li>

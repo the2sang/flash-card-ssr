@@ -11,45 +11,6 @@ type Props = {
 //async function MainCategoryPage({}: Props) {
 const MainCategoryPage = () => {
 
-  // const queryClient = new QueryClient({
-  //   defaultOptions: {
-  //     queries: {
-  //       refetchOnWindowFocus: false,
-  //       refetchOnMount: false,
-  //       retry: false,
-  //       enabled: false,
-  //     }
-  //   }
-  // });
-  //
-  // const dehydratedState = dehydrate(queryClient)
-  //
-  // console.log(queryClient);
-  //
-  // const { data, isLoading, isError } = useMainCategorys();
-  //
-  // //console.log(data);
-  //
-  // if (isLoading) {
-  //   return <span>Loading...</span>
-  // }
-  // if (isError) {
-  //   return <span>Error: {isError.message}</span>
-  // }
-
-  // const queryClient: QueryClient = useQueryClient();
-  //
-  // const { status, data, error, isFetching, isPreviousData} = useQuery({
-  //   queryKey: ['mainCategorys'],
-  //   queryFn: () => getAllMainCategory(),
-  //   // keepPreviousData: true,
-  //   enabled: false,
-  //   // cacheTime: 1000,
-  //   // staleTime: 1000,
-  // });
-  //
-  // console.log(data);
-
 
   return (
     <>
