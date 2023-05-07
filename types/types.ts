@@ -31,10 +31,11 @@ export type TMiddleCategorys = {
 }
 
 
-export type MemoryCard =  {
+export type TMemoryCard =  {
   id:number
   level: number
   question: string
+  questionType: string
   explanation: string
   num1: string
   num2: string
@@ -50,9 +51,26 @@ export type MemoryCard =  {
   }
 }
 
-export type MemoryCards =  {
+export type TMemoryCardAdd =  {
+  id:number
+  level: number
+  question: string
+  questionType: string
+  explanation: string
+  num1: string
+  num2: string
+  num3: string
+  num4: string
+  rightAnswer: string
+  rightAnswerNum: number
+  completed: number
+  learningCount: number
+  middleCategoryId: number
+}
+
+export type TMemoryCards =  {
   success: string
   code: string
   msg: string
-  list : MemoryCard[]
+  list : TMemoryCard[]
 }

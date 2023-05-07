@@ -18,7 +18,6 @@ interface CategoryProps {
   mainCategory: TMainCategory;
 }
 
-
 const AddMiddleCategory = () => {
 
   const nameRef = useRef<HTMLInputElement>()
@@ -29,19 +28,7 @@ const AddMiddleCategory = () => {
   const [newSelected, setNewSelected] = useState<string>("");
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [newMiddleCategoryValue, setNewMiddleCategoryValue] = useState<string>("");
-  const [newMainCategoryValue, setMainCategoryValue] = useState<string>("");
-
-  // type SelectOptionType = { label: string, value: string }
-  //
-  // const [myState, setMyState] = useState({})
-  //
-  // const handleSelectionChange = (option: SelectOptionType | null) => {
-  //   console.log(option)
-  //   if (option) {
-  //     setMyState(option)
-  //   }
-  // };
-  //
+  const [newMainCategoryValue, setNewMainCategoryValue] = useState<string>("");
 
 
   const createCategoryMutate = useMutation({
@@ -116,7 +103,7 @@ const AddMiddleCategory = () => {
                 <option key={data.id} ref={selectedRef} value={data.id} id={data.id} selected>{data.id}-{data.name}</option>
               ))}
             </select>
-            <button type="submit" disabled={createCategoryMutate.isLoading} className="btn">
+            <button type="submit" disabled={createCategoryMutate.isLoading} className="btn text-lg w-1/6">
               {createCategoryMutate.isLoading ? "Loading..." : "Create"}
             </button>
           </div>

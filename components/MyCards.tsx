@@ -2,17 +2,17 @@
 import Card from "@/components/Card";
 import useCards from "@/hook/useCards";
 import React, {FC, useState} from "react";
-import {MemoryCard, MemoryCards} from "@/types/types";
+import {TMemoryCard, TMemoryCards} from "@/types/types";
 
 interface CardProps {
   param: number
 }
 
 const MyCards: FC<CardProps> = ({param})  => {
-  const { data, isLoading, error } = useCards<MemoryCards>(param)
+  const { data, isLoading, error } = useCards<TMemoryCards>(param)
 
   // https://www.debuggr.io/react-map-of-undefined/
-  const cards : MemoryCards = data?.list.map((card: MemoryCard) => {
+  const cards : TMemoryCards = data?.list.map((card: TMemoryCard) => {
     return <Card card={card} key={card.id} />;
   });
 

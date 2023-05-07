@@ -1,46 +1,56 @@
 "use client"
 
-import {TMiddleCategory, TMiddleCategoryAdd} from "@/types/types";
+import {TMemoryCardAdd, TMiddleCategory, TMiddleCategoryAdd} from "@/types/types";
 import {FiEdit, FiTrash2} from "react-icons/fi";
 import Modal from "@/components/Modal";
 import React, {FormEventHandler, useState} from "react";
 import {useRouter} from "next/navigation";
 import {
-  deleteMiddleCategoryCall,
-  editMiddleCategory,
-} from "@/app/api/middleCategoryApi";
+  deleteMemoryCardCall,
+  editMemoryCard,
+} from "@/app/api/memoryCardApi";
 import {useMutation} from "@tanstack/react-query";
 
 interface CategoryProps {
   id: string | undefined;
-  middleCategory?: TMiddleCategoryAdd
+  memoryCard?: TMemoryCardAdd
 }
 
 
-const MiddleCategory: React.FC<CategoryProps> = ({middleCategory}) => {
+const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
   const router = useRouter();
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
-  const [categoryEdit, setCategoryEdit] = useState<string>(middleCategory?.name);
+  const [categoryEdit, setCategoryEdit] = useState<string>(memoryCard?.question);
 
 
 
-  const saveMiddleCategory =
-    useMutation((middleCategory: TMiddleCategoryAdd) => editMiddleCategory({
-      id: middleCategory.id,
-      name: categoryEdit,
-      mainCategoryId: middleCategory?.mainCategoryId
+  const saveMemoryCard =
+    useMutation((memoryCard: TMemoryCardAdd) => editMemoryCard({
+      id: memoryCard.id,
+      question: "",
+      questionTyp: "",
+      level: "",
+      explanation: "",
+      num1:"",
+      num2:"",
+      num3:"",
+      num4:"",
+      rightAnswer:"",
+      rightAnswerNum: "",
+      completed: "",
+      learningCount: "",
   }));
 
   const onSaveMiddleCategory = () => {
-    saveMiddleCategory.mutate(middleCategory);
+    saveMemoryCard.mutate(memoryCard);
     //alert(middleCategory?.name)
     setOpenModalEdit(false);
     //router.refresh();
   }
 
   const deleteMiddleCategory
-    = useMutation((id: string ) => deleteMiddleCategoryCall(id));
+    = useMutation((id: string ) => deleteMemoryCardCall(id));
 
   const onDeleteMiddleCategory = (id: string) => {
     deleteMiddleCategory.mutate(id);
@@ -50,9 +60,9 @@ const MiddleCategory: React.FC<CategoryProps> = ({middleCategory}) => {
 
 
   return (
-    <tr key={middleCategory.id}>
-      <td className="w-full" >{middleCategory.name}</td>
-      <td className="w-full">{middleCategory?.mainCategoryDto.name}</td>
+    <tr key={memoryCard.id}>
+      <td className="w-full" >{memoryCard?.question}</td>
+      <td className="w-full">{memoryCard?.questionType}</td>
       <td className="flex gap-5">
         <FiEdit
           onClick={() => setOpenModalEdit(true)}
@@ -62,7 +72,6 @@ const MiddleCategory: React.FC<CategoryProps> = ({middleCategory}) => {
         />
         <Modal modalOpen={openModalEdit} setModalOpen={setOpenModalEdit} >
           <form onSubmit={onSaveMiddleCategory}>
-            <input type="hidden" name="mainCategoryId" value={middleCategory?.mainCategoryId}/>
             <h3 className="font-bold text-lg">Edit task</h3>
             <div className="modal-action">
               <input
@@ -80,7 +89,7 @@ const MiddleCategory: React.FC<CategoryProps> = ({middleCategory}) => {
         <Modal modalOpen={openModalDelete} setModalOpen={setOpenModalDelete} >
           <h3 className="text-lg">선택한 대분류 코드를 삭제 할까요?</h3>
           <div className="modal-action">
-            <button className="btn" onClick={() => onDeleteMiddleCategory(middleCategory.id)}>
+            <button className="btn" onClick={() => onDeleteMiddleCategory(memoryCard.id)}>
               Yes
             </button>
           </div>
@@ -90,4 +99,4 @@ const MiddleCategory: React.FC<CategoryProps> = ({middleCategory}) => {
   );
 };
 
-export default MiddleCategory
+export default MemoryCard

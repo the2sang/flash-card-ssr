@@ -90,7 +90,7 @@ const AddMainCategory = () => {
               ref={nameRef}
               className="input input-bordered w-full"
             />
-            <button type="submit" disabled={createCategoryMutate.isLoading} className="btn">
+            <button type="submit" disabled={createCategoryMutate.isLoading} className="btn text-lg w-1/6">
               {createCategoryMutate.isLoading ? "Loading..." : "Create"}
             </button>
           </div>
