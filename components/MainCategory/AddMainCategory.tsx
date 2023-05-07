@@ -41,35 +41,6 @@ const AddMainCategory = () => {
   }
 
 
-
-  // const handleSubmitNewMainCategory: FormEventHandler<HTMLFormElement> = async (e) => {
-  //   e.preventDefault();
-  //   await addMainCategory({
-  //     name: newMainCategoryValue
-  //   })
-  //   setNewMainCategoryValue("");
-  //   setModalOpen(false);
-  //   router.refresh();
-  // }
-  //
-  // const saveMainCategory =
-  //   useMutation((mainCategory: TMainCategory) => addMainCategory({
-  //     name: newMainCategoryValue
-  //   }));
-  //
-  // const onSaveMainCategory = async () => {
-  //   await saveMainCategory.mutate(newMainCategoryValue);
-  //   console.log(newMainCategoryValue);
-  //   setNewMainCategoryValue("");
-  //   setModalOpen(false);
-  //   //router.refresh();
-  // }
-  //
-  //
-  //
-  //
-
-
   return (
     <div className="justify-center ml-10 mr-10 mt-5 mb-5">
       <button

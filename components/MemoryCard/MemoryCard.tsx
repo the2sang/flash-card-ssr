@@ -62,7 +62,6 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
   return (
     <tr key={memoryCard.id}>
       <td className="w-full" >{memoryCard?.question}</td>
-      <td className="w-full">{memoryCard?.questionType}</td>
       <td className="flex gap-5">
         <FiEdit
           onClick={() => setOpenModalEdit(true)}
@@ -72,13 +71,105 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
         />
         <Modal modalOpen={openModalEdit} setModalOpen={setOpenModalEdit} >
           <form onSubmit={onSaveMiddleCategory}>
-            <h3 className="font-bold text-lg">Edit task</h3>
+            <h3 className="font-bold text-lg">문제 수정</h3>
             <div className="modal-action">
+              <label >
+                <span className="label-text">문제유형</span>
+              </label>
               <input
-                value={categoryEdit}
-                onChange={(e) => setCategoryEdit(e.target.value)}
+                id="questionType"
+                name="questionType"
+                value={memoryCard?.questionType}
                 type="text"
-                placeholder="Type here"
+                placeholder="Type hear"
+                className="input input-bordered w-full"
+              />
+              <label >
+                <span className="label-text">난이도</span>
+              </label>
+              <input
+                id="level"
+                name="level"
+                value={memoryCard?.level}
+                type="text"
+                placeholder="Type hear"
+                className="input input-bordered w-full"
+              />
+              <label >
+                <span className="label-text">질문</span>
+              </label>
+              <input
+                id="question"
+                name="question"
+                type="text"
+                value={memoryCard?.question}
+                placeholder="Type hear"
+                className="input input-bordered w-full"
+              />
+              <label >
+                <span className="label-text">부연 설명</span>
+              </label>
+              <input
+                id="explanation"
+                name="explanation"
+                value={memoryCard?.explanation}
+                type="text"
+                placeholder="Type hear"
+                className="input input-bordered w-full"
+              />
+              <label >
+                <span className="label-text">문항1</span>
+              </label>
+              <input
+                id="num1"
+                name="num1"
+                type="text"
+                value={memoryCard?.num1}
+                placeholder="Type hear"
+                className="input input-bordered w-full"
+              />
+              <label >
+                <span className="label-text">문항2</span>
+              </label>
+              <input
+                id="num2"
+                name="num2"
+                value={memoryCard?.num2}
+                type="text"
+                placeholder="Type hear"
+                className="input input-bordered w-full"
+              />
+              <label >
+                <span className="label-text">문항3</span>
+              </label>
+              <input
+                id="num3"
+                name="num3"
+                value={memoryCard?.num3}
+                type="text"
+                placeholder="Type hear"
+                className="input input-bordered w-full"
+              />
+              <label >
+                <span className="label-text">문항4</span>
+              </label>
+              <input
+                id="num4"
+                name="num4"
+                value={memoryCard?.num4}
+                type="text"
+                placeholder="Type hear"
+                className="input input-bordered w-full"
+              />
+              <label >
+                <span className="label-text">정답</span>
+              </label>
+              <input
+                id="rightAnswer"
+                name="rightAnswer"
+                value={memoryCard?.rightAnswer}
+                type="text"
+                placeholder="Type hear"
                 className="input input-bordered w-full"
               />
               <button type="submit" className="btn">Submit</button>
@@ -87,7 +178,7 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
         </Modal>
         <FiTrash2 onClick={() => setOpenModalDelete(true)} cursor="pointer" className="text-red-500" size={25} />
         <Modal modalOpen={openModalDelete} setModalOpen={setOpenModalDelete} >
-          <h3 className="text-lg">선택한 대분류 코드를 삭제 할까요?</h3>
+          <h3 className="text-lg">문제를 삭제 할까요?</h3>
           <div className="modal-action">
             <button className="btn" onClick={() => onDeleteMiddleCategory(memoryCard.id)}>
               Yes
