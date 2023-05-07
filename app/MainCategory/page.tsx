@@ -2,17 +2,14 @@
 
 import AddMainCategory from "@/components/MainCategory/AddMainCategory";
 import MainCategoryList from "@/components/MainCategory/MainCategoryList";
-import React, {FC} from "react";
-import useMainCategorys from "@/hook/useMainCategorys";
-import {dehydrate, QueryClient} from "@tanstack/query-core";
+import React from "react";
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
-import Hydrate from "@/app/QueryHydrate";
 
 type Props = {
 }
 
 //async function MainCategoryPage({}: Props) {
-const MainCategoryPage: FC<Props> = async ({}: Props) => {
+const MainCategoryPage = () => {
 
   // const queryClient = new QueryClient({
   //   defaultOptions: {
@@ -40,6 +37,20 @@ const MainCategoryPage: FC<Props> = async ({}: Props) => {
   //   return <span>Error: {isError.message}</span>
   // }
 
+  // const queryClient: QueryClient = useQueryClient();
+  //
+  // const { status, data, error, isFetching, isPreviousData} = useQuery({
+  //   queryKey: ['mainCategorys'],
+  //   queryFn: () => getAllMainCategory(),
+  //   // keepPreviousData: true,
+  //   enabled: false,
+  //   // cacheTime: 1000,
+  //   // staleTime: 1000,
+  // });
+  //
+  // console.log(data);
+
+
   return (
     <>
     <div style={{width: "500px", justifyContent: "center", padding: "10px"}}>
@@ -47,7 +58,7 @@ const MainCategoryPage: FC<Props> = async ({}: Props) => {
     </div>
     <div className="justify-center">
       <AddMainCategory />
-      <MainCategoryList  />
+      <MainCategoryList    />
       <ReactQueryDevtools initialIsOpen />
     </div>
     </>

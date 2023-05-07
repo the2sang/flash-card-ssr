@@ -3,10 +3,10 @@ import MainCategory from "./MainCategory";
 import {QueryClient} from "@tanstack/query-core"
 import axios from "axios";
 import {useQuery, useQueryClient} from "@tanstack/react-query";
-import React from "react";
+import React  from "react";
 import {getAllMainCategory} from "@/app/api/mainCategoryApi";
 
-interface MainCategoryListProps {
+interface CategoryProps {
   mainCategorys: TMainCategorys
 }
 
@@ -29,27 +29,32 @@ const MainCategoryList = () => {
     keepPreviousData: true,
     // cacheTime: 1000,
     // staleTime: 1000,
-
   });
 
-  React.useEffect(() => {
-    if (!isPreviousData && data?.hasMore) {
-      queryClient.prefetchQuery({
-        queryKey: ['mainCategorys'],
-        queryFn: () => getAllMainCategory(),
-        // staleTime: 1000,
-      })
-    }
-  }, [data, isPreviousData, queryClient])
-
-  const [saveMainCategory, setSaveMainCategory] = React.useState<TMainCategorys>();
-
-  const resetData = async () => {
-    const result =  await getAllMainCategory();
-    setSaveMainCategory(result);
-    console.log(result);
-
+  if (status === "loading") return <h1>Loading...</h1>
+  if (status === "error") {
+    return <h1>{JSON.stringify(error)}</h1>
   }
+
+
+  // React.useEffect(() => {
+  //   if (!isPreviousData && data?.hasMore) {
+  //     queryClient.prefetchQuery({
+  //       queryKey: ['mainCategorys'],
+  //       queryFn: () => getAllMainCategory,
+  //       // staleTime: 1000,
+  //     })
+  //   }
+  // }, [data, isPreviousData, queryClient])
+
+  // const [saveMainCategory, setSaveMainCategory] = React.useState<TMainCategorys>();
+  //
+  // const resetData = async () => {
+  //   const result =  await getAllMainCategory();
+  //   setSaveMainCategory(result);
+  //   console.log(result);
+  //
+  // }
 
 
 

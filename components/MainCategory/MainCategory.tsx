@@ -37,6 +37,9 @@ const MainCategory: React.FC<CategoryProps> = ({mainCategory}) => {
   //
   // }
 
+
+
+
   const saveMainCategory =
     useMutation((mainCategory: TMainCategory) => editMainCategory({
       id: mainCategory.id,
