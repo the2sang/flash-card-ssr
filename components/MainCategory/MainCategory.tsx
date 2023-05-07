@@ -6,7 +6,7 @@ import Modal from "@/components/Modal";
 import React, {FormEventHandler, useState} from "react";
 import {useRouter} from "next/navigation";
 import {deleteMainCategory, editMainCategory, getAllMainCategory} from "@/app/api/mainCategoryApi";
-import {useMutation} from "@tanstack/react-query";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 
 interface CategoryProps {
   id: string | undefined;
@@ -23,6 +23,7 @@ const MainCategory: React.FC<CategoryProps> = ({mainCategory}) => {
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
   const [categoryEdit, setCategoryEdit] = useState<string>(mainCategory.name);
+  const queryClient = useQueryClient()
 
   // const handleSubmitEditCategory: FormEventHandler<HTMLFormElement> = async (e) => {
   //   e.preventDefault();

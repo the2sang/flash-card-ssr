@@ -17,6 +17,7 @@ export type TMiddleCategory = {
 }
 
 export type TMiddleCategoryAdd = {
+  id?: string
   name: string
   mainCategoryId: string
 }

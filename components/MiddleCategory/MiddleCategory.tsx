@@ -1,21 +1,19 @@
 "use client"
 
-import {TMiddleCategory} from "@/types/types";
+import {TMiddleCategory, TMiddleCategoryAdd} from "@/types/types";
 import {FiEdit, FiTrash2} from "react-icons/fi";
 import Modal from "@/components/Modal";
 import React, {FormEventHandler, useState} from "react";
 import {useRouter} from "next/navigation";
 import {
-  deleteMiddleCategory,
   deleteMiddleCategoryCall,
   editMiddleCategory,
-  getAllMiddleCategory
 } from "@/app/api/middleCategoryApi";
 import {useMutation} from "@tanstack/react-query";
 
 interface CategoryProps {
   id: string | undefined;
-  middleCategory?: TMiddleCategory
+  middleCategory?: TMiddleCategoryAdd
 }
 
 
@@ -23,18 +21,20 @@ const MiddleCategory: React.FC<CategoryProps> = ({middleCategory}) => {
   const router = useRouter();
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
-  const [categoryEdit, setCategoryEdit] = useState<string>("");
+  const [categoryEdit, setCategoryEdit] = useState<string>(middleCategory?.name);
 
 
 
   const saveMiddleCategory =
-    useMutation((mainCategory: TMiddleCategory) => editMiddleCategory({
-      id: middleCategory.id,
-      name: categoryEdit
+    useMutation((mainCategory: TMiddleCategoryAdd) => editMiddleCategory({
+      id: mainCategory.id,
+      name: categoryEdit,
+      mainCategoryId:
   }));
 
   const onSaveMiddleCategory = () => {
     saveMiddleCategory.mutate(middleCategory);
+    //alert(middleCategory?.name)
     setOpenModalEdit(false);
     //router.refresh();
   }
@@ -62,6 +62,7 @@ const MiddleCategory: React.FC<CategoryProps> = ({middleCategory}) => {
         />
         <Modal modalOpen={openModalEdit} setModalOpen={setOpenModalEdit} >
           <form onSubmit={onSaveMiddleCategory}>
+            <input type="hidden" name="mainCategoryId" value={middleCategory?.mainCategoryId}/>
             <h3 className="font-bold text-lg">Edit task</h3>
             <div className="modal-action">
               <input

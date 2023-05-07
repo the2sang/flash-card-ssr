@@ -38,16 +38,17 @@ export const addMiddleCategory2 = async (mainCategoryAdd: TMiddleCategoryAdd): P
   return newMiddleCategory;
 }
 
-export const editMiddleCategory = async (middleCategory: TMiddleCategory): Promise<TMiddleCategory> => {
-  const res = await fetch(`${baseUrl}/middleCategory/${middleCategory.id}`, {
+export const editMiddleCategory = async (middleCategory: TMiddleCategoryAdd): Promise<TMiddleCategoryAdd> => {
+  const res = await fetch(  `${baseUrl}/middleCategory/update`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(middleCategory)
   })
-  const updatedMiddleCategory = await res.json();
-  return updatedMiddleCategory;
+  alert(JSON.stringify(res));
+  const updatedMiddleCategory2 = await res.json();
+  return updatedMiddleCategory2;
 }
 
 export const deleteMiddleCategoryCall = async (id: string): Promise<void> => {

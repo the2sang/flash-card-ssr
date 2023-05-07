@@ -4,10 +4,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import Modal from "@/components/Modal";
 import React, {FormEventHandler, useRef, useState} from "react";
 import {
-  addMiddleCategory,
   addMiddleCategory2,
-  editMiddleCategory,
-  getAllMiddleCategory
 } from "@/app/api/middleCategoryApi";
 import { useRouter} from "next/navigation";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
