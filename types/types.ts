@@ -52,7 +52,7 @@ export type TMemoryCard =  {
 }
 
 export type TMemoryCardAdd =  {
-  id:number
+  id:string
   level: number
   question: string
   questionType: string
