@@ -59,7 +59,6 @@ const AddMemoryCard = () => {
             <input
                 id="questionType"
                 name="questionType"
-                value={memoryCard?.questionType}
                 type="text"
                 placeholder="Type hear"
                 className="input input-bordered w-full"
@@ -70,7 +69,6 @@ const AddMemoryCard = () => {
             <input
                 id="level"
                 name="level"
-                value={memoryCard?.level}
                 type="text"
                 placeholder="Type hear"
                 className="input input-bordered w-full"
@@ -82,7 +80,6 @@ const AddMemoryCard = () => {
                 id="question"
                 name="question"
                 type="text"
-                value={memoryCard?.question}
                 placeholder="Type hear"
                 className="input input-bordered w-full"
             />
@@ -92,7 +89,6 @@ const AddMemoryCard = () => {
             <input
                 id="explanation"
                 name="explanation"
-                value={memoryCard?.explanation}
                 type="text"
                 placeholder="Type hear"
                 className="input input-bordered w-full"
@@ -104,7 +100,6 @@ const AddMemoryCard = () => {
                 id="num1"
                 name="num1"
                 type="text"
-                value={memoryCard?.num1}
                 placeholder="Type hear"
                 className="input input-bordered w-full"
             />
@@ -114,7 +109,6 @@ const AddMemoryCard = () => {
             <input
                 id="num2"
                 name="num2"
-                value={memoryCard?.num2}
                 type="text"
                 placeholder="Type hear"
                 className="input input-bordered w-full"
@@ -125,7 +119,6 @@ const AddMemoryCard = () => {
             <input
                 id="num3"
                 name="num3"
-                value={memoryCard?.num3}
                 type="text"
                 placeholder="Type hear"
                 className="input input-bordered w-full"
@@ -136,7 +129,6 @@ const AddMemoryCard = () => {
             <input
                 id="num4"
                 name="num4"
-                value={memoryCard?.num4}
                 type="text"
                 placeholder="Type hear"
                 className="input input-bordered w-full"
@@ -147,13 +139,12 @@ const AddMemoryCard = () => {
             <input
                 id="rightAnswer"
                 name="rightAnswer"
-                value={memoryCard?.rightAnswer}
                 type="text"
                 placeholder="Type hear"
                 className="input input-bordered w-full"
             />
-            <button type="submit" disabled={createCategoryMutate.isLoading} className="btn text-lg w-1/6">
-              {createCategoryMutate.isLoading ? "Loading..." : "Create"}
+            <button type="submit" disabled={createMemoryCardMutate.isLoading} className="btn text-lg w-1/6">
+              {createMemoryCardMutate.isLoading ? "Loading..." : "Create"}
             </button>
           </div>
         </form>

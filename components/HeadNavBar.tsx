@@ -32,7 +32,7 @@ function HeadNavBar() {
                 <li><button type="button" onClick={() => router.push('MiddleCategory')}>중분류코드</button> </li>
               </ul>
             </li>
-            <li><a>학습관리</a></li>
+            <li><button type="button" onClick={() => router.push('MemoryCard')}>학습관리</button> </li>
           </ul>
         </div>
       </div>

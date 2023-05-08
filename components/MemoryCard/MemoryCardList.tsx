@@ -33,6 +33,7 @@ const MemoryCardList = () => {
   return (
     <>
     <div className="flex-auto m-5">
+      <p>{console.log(JSON.stringify(data))}</p>
       <table className="table w-full">
         {/* head */}
         <thead>
@@ -43,9 +44,9 @@ const MemoryCardList = () => {
         </thead>
         <tbody>
 
-        {data?.list.map((memoryCard) => (
-          <MemoryCard id={memoryCard.id} key={memoryCard.id} mainCategory={memoryCard} />
-        ))}
+        {/*{data?.list.map((memoryCard) => (*/}
+        {/*  <MemoryCard id={memoryCard.id} key={memoryCard.id} mainCategory={memoryCard} />*/}
+        {/*))}*/}
         </tbody>
       </table>
     </div>

@@ -1,14 +1,21 @@
 import axios from "axios";
-import {TMainCategorys, TMemoryCard, TMemoryCardAdd, TMiddleCategory, TMiddleCategoryAdd} from "@/types/types";
+import {
+  TMainCategorys,
+  TMemoryCard,
+  TMemoryCardAdd,
+  TMemoryCards,
+  TMiddleCategory,
+  TMiddleCategoryAdd
+} from "@/types/types";
 
 const baseUrl = "http://localhost:8080/api";
 
 export async function fetchMemoryCards(id: number) {
-  const req = await fetch(`http://localhost:8080/api/memorycard/middlecode?param=${id}`);
+  const req = await fetch(`http://localhost:8080/api/memoryCard/middlecode?param=${id}`);
   const data = await req.json();
 }
 
-export const getAllMemoryCard = async (): Promise<TMainCategorys> => {
+export const getAllMemoryCard = async (): Promise<TMemoryCards> => {
   const res = await fetch(`${baseUrl}/memoryCard/all`);
   const memoryCards = await res.json();
   return memoryCards;
@@ -16,7 +23,7 @@ export const getAllMemoryCard = async (): Promise<TMainCategorys> => {
 
 export async function getMemoryCards(id: number) {
   const response = await axios.get(
-    `http://localhost:8080/api/memorycard/middlecode?param=${id}`
+    `http://localhost:8080/api/memoryCard/middlecode?param=${id}`
   );
 
   return response.data;
