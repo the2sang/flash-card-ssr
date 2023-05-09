@@ -7,7 +7,9 @@ import {addMemoryCard, addMemoryCard2, editMemoryCard} from "@/app/api/memoryCar
 import { useRouter} from "next/navigation";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {TMainCategory, TMemoryCard, TMemoryCardAdd} from "@/types/types";
-// import {v4 as uuidv4} from "uuid";
+import {undefined} from "zod";
+import { toast, ToastContainer } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
 
 interface CategoryProps {
   id: string | undefined;
@@ -17,6 +19,13 @@ interface CategoryProps {
 
 
 const AddMemoryCard = () => {
+
+  const showToastMessage = () => {
+    toast.success('Success Notification !', {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 1000,
+    });
+  };
 
   const nameRef = useRef<HTMLInputElement>()
   const queryClient = useQueryClient()
@@ -37,59 +46,95 @@ const AddMemoryCard = () => {
   const rightAnswerNumRef = useRef<HTMLSelectElement>()
   const completionRef = useRef<HTMLInputElement>()
 
-  const [newCard, setNewCard] = useState<TMemoryCardAdd>();
+  const [newCard, setNewCard] = useState<TMemoryCardAdd>()
+  const cardFormRef = useRef<HTMLFormElement>()
+
+  const [showEx, setShowEx] = useState<boolean>(false)
 
   const createMemoryCardMutate = useMutation({
     mutationFn: () => addMemoryCard2(newCard as TMemoryCardAdd),
     onSuccess: data => {
+      //clearData()
+      cardFormRef.current?.reset()
+      showToastMessage()
       queryClient.setQueryData(["memoryCard"], data)
       queryClient.invalidateQueries(["memoryCard"], {exact: true})
     }
   })
+const setupData = (): TMemoryCardAdd => {
+  const newMemoryCard : TMemoryCardAdd = {
+    question: questionRef.current?.value,
+    questionType: questionTeypRef.current?.value,
+    completed: completionRef.current?.value,
+    level: levelRef.current?.value,
+    explanation: explationRef.current?.value,
+    num1: num1Ref.current?.value,
+    num2: num2Ref.current?.value,
+    num3: num3Ref.current?.value,
+    num4: num4Ref.current?.value,
+    rightAnswer: "",
+    rightAnswerNum: rightAnswerNumRef.current?.value,
+    learningCount: 0,
+    middleCategoryId: 1,
+  }
+  return newMemoryCard;
+}
 
+const clearData = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    e.preventDefault()
+  setNewCard(setupData)
+  createMemoryCardMutate.mutate({
+    newCard
+  })
+
+}
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
-    const newMemoryCard : TMemoryCardAdd = {
-      question: questionRef.current?.value,
-      questionType: questionTeypRef.current?.value,
-      completed: completionRef.current?.value,
-      level: levelRef.current?.value,
-      explanation: explationRef.current?.value,
-      num1: num1Ref.current?.value,
-      num2: num2Ref.current?.value,
-      num3: num3Ref.current?.value,
-      num4: num4Ref.current?.value,
-      rightAnswer: "",
-      rightAnswerNum: rightAnswerNumRef.current?.value,
-      learningCount: 0,
-      middleCategoryId: 1,
-    }
-    //console.log(newMemoryCard)
-
-    setNewCard(newMemoryCard)
+    setNewCard(setupData)
 
     createMemoryCardMutate.mutate({
-      newMemoryCard
+      newCard
     })
     //console.log(newMemoryCard)
     //setNewMemoryCardValue("")
-    setModalOpen(false)
+    // setModalOpen(false)
     router.refresh()
+  }
+
+  function saveNext(e: React.KeyboardEvent<HTMLInputElement>) {
+    e.preventDefault()
+    setNewCard(setupData)
+    createMemoryCardMutate.mutate({
+      newCard
+    })
+   // clearData();
+   //  setModalOpen(true)
+   //  router.refresh()
+  }
+
+  function showExplanation(e: React.KeyboardEvent<HTMLInputElement>) {
+    e.preventDefault()
+     alert("hi")
+
+    setShowEx(true)
+    // e.target.visible = true
   }
 
 
   return (
-    <div className="justify-center ml-10 mr-10 mt-5 mb-5">
+
+    <div className="justify-center ml-10 mr-10 mt-2 mb-2">
+      <ToastContainer />
       <button
         onClick={() => setModalOpen(true) }
-        className='btn btn-primary w-full pl-24 pr-24 mb-2.5'
+        className='btn btn-primary btn-md w-full pl-24 pr-24 mb-2.5'
       >
         문제 추가하기<AiOutlinePlus size={18} />
       </button>
       <ModalForm modalOpen={modalOpen} setModalOpen={setModalOpen} >
-        <form onSubmit={handleSubmit} className="m-1">
+        <form onSubmit={handleSubmit} ref={cardFormRef} className="m-1">
           <h3 className="font-bold text-lg">문제 추가하기</h3>
           <div className="modal-box">
             {/*<label >*/}
@@ -105,14 +150,14 @@ const AddMemoryCard = () => {
             <div className="flex-col space-x-3 mb-2">
               <select ref={questionTeypRef} className="select select-bordered select-sm ">
                 <option disabled selected>문제유형</option>
-                <option value={1}>주관식</option>
+                <option value={1} >주관식</option>
                 <option value={2}>객관식</option>
               </select>
               <select ref={levelRef} className="select select-bordered select-sm">
                 <option disabled selected>난이도</option>
                 <option ref={levelRef} value={1}>상</option>
                 <option ref={levelRef} value={2}>중</option>
-                <option ref={levelRef} value={3}>하</option>
+                <option ref={levelRef}  value={3}>하</option>
               </select>
               {/*<label >*/}
               {/*  <span className="label-text">정답</span>*/}
@@ -151,9 +196,14 @@ const AddMemoryCard = () => {
             </div>
             <div className="mb-2"   >
               <label >
-                <span className="label-text">부연 설명</span>
+                <span className="label-text" onClick={()=> {setShowEx(!showEx)}}  >부연 설명(if click then show)</span>
               </label>
-              <textarea placeholder="부연설명" ref={explationRef} className="textarea textarea-bordered textarea-md w-full" ></textarea>
+              { showEx &&
+                <textarea
+                  placeholder="부연설명"
+                  ref={explationRef}
+                  className="textarea textarea-bordered textarea-md w-full" />
+              }
             </div>
             <div className="mb-2">
               <label >
@@ -226,15 +276,15 @@ const AddMemoryCard = () => {
                   {createMemoryCardMutate.isLoading ? "Loading..." : "Create"}
                 </button>
               </div>
-              <div className="mb-2 mt-2">
-                <button type="submit" disabled={createMemoryCardMutate.isLoading} className="btn w-4/5">
-                  {createMemoryCardMutate.isLoading ? "Loading..." : "Next"}
-                </button>
-              </div>
-            </div>
 
+            </div>
           </div>
         </form>
+        {/*<div className="mb-2 mt-2">*/}
+        {/*  <button onClick={clearData}  disabled={createMemoryCardMutate.isLoading} className="btn w-4/5">*/}
+        {/*    {createMemoryCardMutate.isLoading ? "Loading..." : "Next"}*/}
+        {/*  </button>*/}
+        {/*</div>*/}
       </ModalForm>
     </div>
   );

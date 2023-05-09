@@ -69,7 +69,7 @@ const MemoryCardNewList = () => {
     <div className="justify-center m-5">
       {/*<p>{console.log(JSON.stringify(data))}</p>*/}
       {/*<Pagination page={1} perPage={10} itemCount={data?.list.length}/>*/}
-      <table className="table">
+      <table className="table table-compact">
         {/* head */}
         <thead>
         <tr>

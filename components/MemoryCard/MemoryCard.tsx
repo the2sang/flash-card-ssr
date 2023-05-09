@@ -69,7 +69,7 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
           onClick={() => setOpenModalEdit(true)}
           cursor="pointer"
           className="text-blue-500"
-          size={23}
+          size={21}
         />
         <ModalForm modalOpen={openModalEdit} setModalOpen={setOpenModalEdit} >
           <div className="">
@@ -203,7 +203,7 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
             </form>
           </div>
         </ModalForm>
-        <FiTrash2 onClick={() => setOpenModalDelete(true)} cursor="pointer" className="text-red-500" size={24} />
+        <FiTrash2 onClick={() => setOpenModalDelete(true)} cursor="pointer" className="text-red-500" size={21} />
         <Modal modalOpen={openModalDelete} setModalOpen={setOpenModalDelete} >
           <h3 className="text-lg">문제를 삭제 할까요?</h3>
           <div className="modal-action">
