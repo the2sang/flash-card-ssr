@@ -32,6 +32,7 @@ const AddMemoryCard = () => {
   const num4Ref = useRef<HTMLInputElement>()
   const questionTeypRef = useRef<HTMLSelectElement>()
   const levelRef = useRef<HTMLSelectElement>()
+  const rightAnswer = useRef<HTMLInputElement>()
   const rightAnswerRef = useRef<HTMLInputElement>()
   const rightAnswerNumRef = useRef<HTMLSelectElement>()
   const completionRef = useRef<HTMLInputElement>()
@@ -39,36 +40,16 @@ const AddMemoryCard = () => {
   const [newCard, setNewCard] = useState<TMemoryCardAdd>();
 
   const createMemoryCardMutate = useMutation({
-    mutationFn: () => addMemoryCard2,
+    mutationFn: () => addMemoryCard2(newCard as TMemoryCardAdd),
     onSuccess: data => {
       queryClient.setQueryData(["memoryCard"], data)
       queryClient.invalidateQueries(["memoryCard"], {exact: true})
     }
   })
 
-  // const newMemoryCard : TMemoryCardAdd = {
-  //   question: questionRef,
-  //   questionType: questionTeypRef,
-  //   completed: completionRef,
-  //   level: levelRef,
-  //   explanation: explationRef,
-  //   num1: num1Ref,
-  //   num2: num2Ref,
-  //   num3: num3Ref,
-  //   num4: num4Ref,
-  //   rightAnswer: "",
-  //   rightAnswerNum: rightAnswerNumRef,
-  //   learningCount: 0,
-  //   middleCategoryId: 1,
-  // }
-
-
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-
-    //const newMemoryCard: TMemoryCardAdd = {};
-
 
     const newMemoryCard : TMemoryCardAdd = {
       question: questionRef.current?.value,
@@ -85,25 +66,15 @@ const AddMemoryCard = () => {
       learningCount: 0,
       middleCategoryId: 1,
     }
-    // newCard?.question = questionRef.current?.value
-    // newCard?.questionType = questionTeypRef.current?.value
-    // newCard?.completed = completionRef.current?.value
-    // newCard?.explanation = explationRef.current?.value
-    // newCard.num1 = num1Ref.current?.value
-    // newCard.num2 = num2Ref.current?.value
-    // newCard.num3 = num3Ref.current?.value
-    // nweCard.new4 = num4Ref.current?.value
-    // newCard?.rightAnswer = rightAnswerRef.current?.value
-    // newCard?.rightAnswerNum =rightAnswerNumRef.current?.value
-    // newCard?.learningCount = 0
-    // newCard?.middleCategoryId = 1
+    //console.log(newMemoryCard)
 
+    setNewCard(newMemoryCard)
 
     createMemoryCardMutate.mutate({
-      memoryCard: newMemoryCard
+      newMemoryCard
     })
-    console.log(newMemoryCard)
-    setNewMemoryCardValue("")
+    //console.log(newMemoryCard)
+    //setNewMemoryCardValue("")
     setModalOpen(false)
     router.refresh()
   }
@@ -139,9 +110,9 @@ const AddMemoryCard = () => {
               </select>
               <select ref={levelRef} className="select select-bordered select-sm">
                 <option disabled selected>난이도</option>
-                <option ref={levelRef}>상</option>
-                <option ref={levelRef}>중</option>
-                <option ref={levelRef}>하</option>
+                <option ref={levelRef} value={1}>상</option>
+                <option ref={levelRef} value={2}>중</option>
+                <option ref={levelRef} value={3}>하</option>
               </select>
               {/*<label >*/}
               {/*  <span className="label-text">정답</span>*/}
@@ -150,8 +121,8 @@ const AddMemoryCard = () => {
                 <span className="label-text">정답</span>
               </label>
               <input
-                id="rightAnswer"
-                name="rightAnswer"
+                id="rightAnswerNum"
+                name="rightAnswerNum"
                 type="text"
                 ref={rightAnswerNumRef}
                 placeholder="정답"
@@ -159,10 +130,10 @@ const AddMemoryCard = () => {
                 list="answer"
               />
               <datalist id="answer">
-               <option ref={rightAnswerRef} value="1" />
-                <option ref={rightAnswerRef} value="2" />
-                <option ref={rightAnswerRef} value="3" />
-                <option ref={rightAnswerRef} value="4" />
+               <option ref={rightAnswerNumRef} value={1} />
+                <option ref={rightAnswerNumRef} value={2} />
+                <option ref={rightAnswerNumRef} value={3} />
+                <option ref={rightAnswerNumRef} value={4} />
               </datalist>
             </div>
             <div className="mb-2">
@@ -231,6 +202,19 @@ const AddMemoryCard = () => {
                 id="num4"
                 name="num4"
                 ref={num4Ref}
+                type="text"
+                placeholder="Type hear"
+                className="input input-sm input-bordered w-full"
+              />
+            </div>
+            <div className="mb-2">
+              <label >
+                <span className="label-text">정답(단답형)</span>
+              </label>
+              <input
+                id="rightAnswer"
+                name="rightAnswer"
+                ref={rightAnswer}
                 type="text"
                 placeholder="Type hear"
                 className="input input-sm input-bordered w-full"
