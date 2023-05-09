@@ -73,7 +73,7 @@ export const addMemoryCard2 = async (memoryCard: TMemoryCardAdd): Promise<TMemor
     },
     body: JSON.stringify(memoryCard)
   })
-  console.log(res.json());
+  //console.log(res.json());
   const newMemoryCard = await res.json();
   return newMemoryCard;
 }
