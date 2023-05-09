@@ -75,3 +75,11 @@
   text-align: center;
   margin: 20px auto;
 }
+
+.modal-new-box {
+  display: block;
+  text-align: left;
+  width: 600px;
+  height: 500px;
+  margin: 10px auto;
+}

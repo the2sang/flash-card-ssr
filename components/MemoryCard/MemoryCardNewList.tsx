@@ -1,9 +1,9 @@
-import {TMemoryCard, TMemoryCards} from "@/types/types"
+import {TMemoryCard, TMemoryCardAdd, TMemoryCards} from "@/types/types"
 import MemoryCard from "./MemoryCard";
 import {QueryClient} from "@tanstack/query-core"
 import axios from "axios";
-import {useQuery, useQueryClient} from "@tanstack/react-query";
-import React  from "react";
+import {QueryClientProvider, useQuery, useQueryClient} from "@tanstack/react-query";
+import React, {useState} from "react";
 import {getAllMemoryCard, getAllMemoryCardPage} from "@/app/api/memoryCardApi";
 import Pagination from "@/components/Pagination";
 import {useRouter} from "next/router";
@@ -11,47 +11,65 @@ import { useFetch} from "usehooks-ts";
 
 interface CategoryProps {
   memoryCards: TMemoryCards
+  memoryCard: TMemoryCardAdd
+}
+
+const queryClient = new QueryClient()
+
+
+
+
+
+export default function MemoryCardPageList() {
+  return (
+          <QueryClientProvider client={queryClient}>
+            <MemoryCardNewList />
+          </QueryClientProvider>
+      )
 }
 
 
-const MemoryCardList = () => {
+
+const MemoryCardNewList = () => {
 
   //const router = useRouter()
 
   const queryClient: QueryClient = useQueryClient();
-
   const[page, setPage] = React.useState(0);
 
-  const { status, data, error, isFetching, isPreviousData} = useQuery({
-    queryKey: ['memoryCards', page],
-    queryFn: () => getAllMemoryCardPage(page) ,
-    keepPreviousData: true,
-    staleTime: 3000,
-    // cacheTime: 1000,
-    // staleTime: 1000,
-  });
+  const [hasMore, setHasMore] = React.useState<boolean>(true);
 
+  async function fetchMemoryCards(page = 0) {
+    const { data } = await axios.get(`http://localhost:8080/api/memoryCard/next?page=${page}`)
+
+    setHasMore(page < 9 ? true : false)
+    return data;
+  }
+
+  const { status, data, error, isFetching, isPreviousData } = useQuery({
+    queryKey: ['memoryCards', page],
+    queryFn: () => fetchMemoryCards(page),
+    keepPreviousData: true,
+    staleTime: 2000,
+  })
+
+  // Prefetch the next page!
   React.useEffect(() => {
-    if(isPreviousData && data?.hasMore) {
+    if (!isPreviousData && hasMore) {
       queryClient.prefetchQuery({
         queryKey: ['memoryCards', page + 1],
-        queryFn: () => getAllMemoryCard(),
+        queryFn: () => fetchMemoryCards(page + 1),
       })
     }
-  }, [data, isPreviousData, page,queryClient])
-
-  if (status === "loading") return <h1>Loading...</h1>
-  if (status === "error") {
-    return <h1>{JSON.stringify(error)}</h1>
-  }
+  }, [data, isPreviousData, page, queryClient])
 
 
   return (
     <>
-    <div className="flex-auto m-5">
+    <div className="justify-center m-5">
       {/*<p>{console.log(JSON.stringify(data))}</p>*/}
       {/*<Pagination page={1} perPage={10} itemCount={data?.list.length}/>*/}
-      <table className="table w-full">
+      <table className="table">
         {/* head */}
         <thead>
         <tr>
@@ -60,16 +78,17 @@ const MemoryCardList = () => {
         </tr>
         </thead>
         <tbody>
-
+        {/*{data}*/}
         {data?.list.map((memoryCard) => (
-          <MemoryCard  key={memoryCard.id} memoryCard={memoryCard} />
+              <MemoryCard  key={memoryCard.id} id={memoryCard.id} memoryCard={memoryCard} />
+
         ))}
         </tbody>
       </table>
       <div className="flex rounded bg-white mt-3">
         <div className="flex m-3 text-lg text-left">현재 페이지: {page + 1}</div>
         <div className="flex m-3">
-          <button className="input input-bordered w-full"
+          <button className="input input-bordered btn-sm w-full"
                   onClick={() => setPage((old) => Math.max(old - 1, 0))}
                   disabled={page === 0}
           >
@@ -77,11 +96,11 @@ const MemoryCardList = () => {
           </button>{' '}
         </div>
         <div className="flex m-3">
-          <button className="input input-bordered w-full"
+          <button className="input input-bordered btn-sm w-full"
                   onClick={() => {
-                    setPage((old) => (data?.hasMore ? old + 1 : old))
+                    setPage((old) => (hasMore ? old + 1 : old))
                   }}
-                  disabled={isPreviousData || !data?.hasMore}
+                  disabled={isPreviousData || !hasMore}
           >
             Next
           </button>
@@ -104,4 +123,4 @@ const MemoryCardList = () => {
   );
 };
 
-export default MemoryCardList;
+//export default MemoryCardNewList;

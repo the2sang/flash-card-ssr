@@ -21,6 +21,27 @@ export const getAllMemoryCard = async (): Promise<TMemoryCards> => {
   return memoryCards;
 }
 
+export const getAllMemoryCardPage = async (page: number): Promise<TMemoryCards> => {
+  const res = await fetch(`${baseUrl}/memoryCard/next?page=${page}`);
+
+  // const pageSize = 10;
+  //
+  const memoryCards = await res.json();
+  //
+  // const results = memoryCards.list.fill(0)
+  //     .map((card, i) => {
+  //       const id = page * pageSize + (i + 1)
+  //       const name = card.question
+  //       return {
+  //         name: name,
+  //         id,
+  //       }
+  //     })
+  // console.log(results)
+
+  return memoryCards;
+}
+
 export async function getMemoryCards(id: number) {
   const response = await axios.get(
     `http://localhost:8080/api/memoryCard/middlecode?param=${id}`
@@ -30,8 +51,8 @@ export async function getMemoryCards(id: number) {
 }
 
 
-
-export const addMemoryCard = async (memoryCard: TMemoryCard): Promise<TMemoryCard> => {
+export const addMemoryCard = async (memoryCard: TMemoryCardAdd): Promise<TMemoryCardAdd> => {
+ // console.log(memoryCard);
   const res = await fetch(`${baseUrl}/memoryCard/new`, {
     method: 'POST',
     headers: {
@@ -39,18 +60,18 @@ export const addMemoryCard = async (memoryCard: TMemoryCard): Promise<TMemoryCar
     },
     body: JSON.stringify(memoryCard)
   })
-  console.log(res.json());
+ // console.log(res.json());
   const newMemoryCard = await res.json();
   return newMemoryCard;
 }
 
-export const addMemoryCard2 = async (memoryCardAdd: TMemoryCardAdd): Promise<TMemoryCardAdd> => {
+export const addMemoryCard2 = async (memoryCard: TMemoryCardAdd): Promise<TMemoryCardAdd> => {
   const res = await fetch(`${baseUrl}/memoryCard/new2`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(memoryCardAdd)
+    body: JSON.stringify(memoryCard)
   })
   console.log(res.json());
   const newMemoryCard = await res.json();
