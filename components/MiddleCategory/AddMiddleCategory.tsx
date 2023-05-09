@@ -70,7 +70,7 @@ const AddMiddleCategory = () => {
     alert(e.target.value)
     e.preventDefault()
     const value = e.target.value
-    console.log(value)
+    //console.log(value)
     setNewSelected(value);
   }
 
