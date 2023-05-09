@@ -67,25 +67,28 @@ const MemoryCardList = () => {
         </tbody>
       </table>
       <div className="flex rounded bg-white mt-3">
-        <div className="flex m-3 text-lg text-left">현재 페이지: {page + 1}</div>
-        <div className="flex m-3">
-          <button className="input input-bordered w-full"
-                  onClick={() => setPage((old) => Math.max(old - 1, 0))}
-                  disabled={page === 0}
-          >
-            Previous
-          </button>{' '}
+        <div className="flex text-lg text-left">현재 페이지: {page + 1}</div>
+        <div className="flex m-1">
+          <div className="flex">
+            <button className="input input-bordered w-full"
+                    onClick={() => setPage((old) => Math.max(old - 1, 0))}
+                    disabled={page === 0}
+            >
+              Previous
+            </button>{' '}
+          </div>
+          <div className="flex">
+            <button className="input input-bordered w-full"
+                    onClick={() => {
+                      setPage((old) => (data?.hasMore ? old + 1 : old))
+                    }}
+                    disabled={isPreviousData || !data?.hasMore}
+            >
+              Next
+            </button>
+          </div>
         </div>
-        <div className="flex m-3">
-          <button className="input input-bordered w-full"
-                  onClick={() => {
-                    setPage((old) => (data?.hasMore ? old + 1 : old))
-                  }}
-                  disabled={isPreviousData || !data?.hasMore}
-          >
-            Next
-          </button>
-        </div>
+
 
        </div>
       </div>
