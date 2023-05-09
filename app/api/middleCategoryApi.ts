@@ -7,7 +7,7 @@ export const getAllMiddleCategory = async (): Promise<TMiddleCategory> => {
   const res = await fetch(`${baseUrl}/middleCategoryFetch/all`, {cache: 'no-store'});
   const middleCategorys = await res.json();
 
-  console.log(middleCategory);
+  //console.log(middleCategory);
 
   return middleCategorys;
 }
@@ -20,20 +20,20 @@ export const addMiddleCategory = async (middleCategory: TMiddleCategory): Promis
     },
     body: JSON.stringify(middleCategory)
   })
-  console.log(res.json());
+  //console.log(res.json());
   const newMiddleCategory = await res.json();
   return newMiddleCategory;
 }
 
-export const addMiddleCategory2 = async (mainCategoryAdd: TMiddleCategoryAdd): Promise<TMiddleCategoryAdd> => {
+export const addMiddleCategory2 = async (mainCategory: TMiddleCategoryAdd): Promise<TMiddleCategoryAdd> => {
   const res = await fetch(`${baseUrl}/middleCategory/new2`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(mainCategoryAdd)
+    body: JSON.stringify(mainCategory)
   })
-  console.log(res.json());
+  //console.log(res.json());
   const newMiddleCategory = await res.json();
   return newMiddleCategory;
 }
