@@ -17,10 +17,6 @@ interface CategoryProps {
 
 const queryClient = new QueryClient()
 
-
-
-
-
 export default function MemoryCardPageList() {
   return (
           <QueryClientProvider client={queryClient}>
@@ -28,8 +24,6 @@ export default function MemoryCardPageList() {
           </QueryClientProvider>
       )
 }
-
-
 
 const MemoryCardNewList = () => {
 
@@ -43,8 +37,14 @@ const MemoryCardNewList = () => {
   async function fetchMemoryCards(page = 0) {
     const { data } = await axios.get(`http://localhost:8080/api/memoryCard/next?page=${page}`)
 
+    let totalPages:number = data.page.totalPages
+
+    let pageCount = page * 10
+
+
     //alert(data.page.totalElements)
-    setHasMore(page < data.page.totalPages ? true : false)
+    // setHasMore(page < data.page.size ? true : false)
+    setHasMore(totalPages % 10 < 10 ? true : false)
     return data;
   }
 
