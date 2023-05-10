@@ -8,6 +8,7 @@ import {getAllMemoryCard, getAllMemoryCardPage} from "@/app/api/memoryCardApi";
 import Pagination from "@/components/Pagination";
 import {useRouter} from "next/router";
 import { useFetch} from "usehooks-ts";
+import {Button} from "@/components/common/Button";
 
 interface CategoryProps {
   memoryCards: TMemoryCards
@@ -42,7 +43,8 @@ const MemoryCardNewList = () => {
   async function fetchMemoryCards(page = 0) {
     const { data } = await axios.get(`http://localhost:8080/api/memoryCard/next?page=${page}`)
 
-    setHasMore(page < 9 ? true : false)
+    //alert(data.page.totalElements)
+    setHasMore(page < data.page.totalPages ? true : false)
     return data;
   }
 
@@ -79,31 +81,32 @@ const MemoryCardNewList = () => {
         </thead>
         <tbody>
         {/*{data}*/}
-        {data?.list.map((memoryCard) => (
+        {data?.page.content.map((memoryCard) => (
               <MemoryCard  key={memoryCard.id} id={memoryCard.id} memoryCard={memoryCard} />
 
         ))}
         </tbody>
       </table>
       <div className="flex rounded bg-white mt-3">
-        <div className="flex m-3 text-lg text-left">현재 페이지: {page + 1}</div>
-        <div className="flex m-3">
-          <button className="input input-bordered btn-sm w-full"
+        <div className="flex m-3 text-lg text-left mt-5">현재 페이지: {page + 1}</div>
+        <div className="flex mt-3 mb-3">
+          <Button className="rounded-s-lg self-start"
                   onClick={() => setPage((old) => Math.max(old - 1, 0))}
                   disabled={page === 0}
           >
             Previous
-          </button>{' '}
+          </Button>{' '}
         </div>
-        <div className="flex m-3">
-          <button className="input input-bordered btn-sm w-full"
+        <div className="flex mt-3 mb-3 ml-1">
+          <Button className="rounded-e-lg"
                   onClick={() => {
                     setPage((old) => (hasMore ? old + 1 : old))
                   }}
                   disabled={isPreviousData || !hasMore}
           >
             Next
-          </button>
+          </Button>
+          {/*<Button className="self-end">Tweet</Button>*/}
         </div>
 
        </div>
