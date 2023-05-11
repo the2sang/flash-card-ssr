@@ -30,9 +30,6 @@ export type TMiddleCategoryAdd = {
   mainCategoryDto: TMainCategory
 }
 
-
-
-
 export type TMemoryCard =  {
   id:number
   level: number
@@ -47,10 +44,7 @@ export type TMemoryCard =  {
   rightAnswerNum: number
   completed: number
   learningCount: number
-  middleCategory: {
-    id: number
-    name: string
-  }
+  middleCategory: TMiddleCategory
 }
 
 export type TMemoryCardAdd =  {
@@ -74,7 +68,7 @@ export type TMemoryCards =  {
   success: string
   code: string
   msg: string
-  list : TMemoryCard[]
+  list : TMemoryCardAdd[]
 }
 
 export type TMemoryCardPages = {
@@ -82,7 +76,7 @@ export type TMemoryCardPages = {
   code: number,
   msg: string,
   page: {
-    content:TMemoryCard[],
+    content:TMemoryCardAdd[],
     totalElements: number,
     totalPages: number,
     size: number,

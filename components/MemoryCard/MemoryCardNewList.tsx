@@ -41,7 +41,7 @@ const MemoryCardNewList = () => {
     let totalPages:number = data.page.totalPages
 
     let pageCount = page * 10
-
+    console.log(data)
 
     //alert(data.page.totalElements)
     // setHasMore(page < data.page.size ? true : false)
@@ -52,7 +52,7 @@ const MemoryCardNewList = () => {
   const { status, data, error, isFetching, isPreviousData } = useQuery({
     queryKey: ['memoryCards', page],
     queryFn: () => fetchMemoryCards(page),
-    keepPreviousData: false,
+    keepPreviousData: true,
     staleTime: 1000,
   })
 

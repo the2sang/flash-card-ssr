@@ -23,6 +23,8 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
     const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
     const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
     const [categoryEdit, setCategoryEdit] = useState<string>(memoryCard?.question);
+    const [middleCategory, setMiddleCategory]
+      = useState<TMiddleCategory>(memoryCard?.middleCategory)
 
     const questionRef = useRef<HTMLInputElement>()
     const explationRef = useRef<HTMLTextAreaElement>()
@@ -44,7 +46,7 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
     const [num1, setNum1] = useState<string>("");
 
     const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>)  => {
-        console.log(e.currentTarget.value)
+        //console.log(e.currentTarget.value)
         setInputVal(e.currentTarget.value)
     }, [])
 
@@ -53,7 +55,7 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
         useMutation((memoryCard: TMemoryCardAdd) => editMemoryCard({
             id: memoryCard.id,
             question: questionRef.current?.value,
-            questionTyp: questionTeypRef.current?.value,
+            questionType: questionTeypRef.current?.value,
             level: levelRef.current?.value,
             explanation: explationRef.current?.value,
             num1: num1Ref.current?.value,
@@ -62,6 +64,7 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
             num4: num4Ref.current?.value,
             rightAnswer: rightAnswerNumRef.current?.value,
             rightAnswerNum: rightAnswerNumRef.current?.value,
+            middleCategoryId: memoryCard.middleCategoryId
         }));
 
     const onSaveMiddleCategory = () => {
@@ -96,7 +99,7 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
                             <h3 className="font-bold text-lg ml-20">문제 수정하기</h3>
                             <div className="modal-new-box border-2 p-5">
                                 <div className="flex-col space-x-3 mb-2">
-                                    <select ref={questionTeypRef} value={memoryCard?.questionType}
+                                    <select ref={questionTeypRef} defaultValue={memoryCard?.questionType}
                                             className="select select-bordered select-sm ">
                                         <option disabled selected>문제유형</option>
                                         {memoryCard?.questionType === "1" ?
@@ -108,7 +111,7 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
                                         <option ref={questionTeypRef} value={memoryCard?.questionType}>주관식</option>
                                         <option ref={questionTeypRef} value={memoryCard?.questionType}>객관식</option>
                                     </select>
-                                    <select ref={levelRef} value={memoryCard?.level}
+                                    <select ref={levelRef} defaultValue={memoryCard?.level}
                                             className="select select-bordered select-sm">
                                         <option disabled selected>난이도</option>
                                         {memoryCard?.level === 1 ?
@@ -134,7 +137,7 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
                                         type="text"
                                         onChange={onChange}
                                         ref={rightAnswerNumRef}
-                                        value={memoryCard?.rightAnswerNum}
+                                        defaultValue={memoryCard?.rightAnswerNum}
                                         placeholder="정답"
                                         className="input input-sm input-bordered w-1/3"
                                         list="answer"
@@ -172,7 +175,7 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
                                         <span className="label-text mr-4">추가 설명</span>
                                     </label>
                                     <textarea placeholder="부연설명" onChange={onChange} ref={explationRef} id="explanation" name="explanation"
-                                              value={memoryCard?.explanation}
+                                              defaultValue={memoryCard?.explanation}
                                               className="textarea textarea-bordered textarea-md w-10/12"></textarea>
                                 </div>
                                 <div className="mb-3">
@@ -181,11 +184,11 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
                                     </label>
                                     <input
                                         id="num1"
-                                        onChange={(e) => setNum1(e.target.value) }
-                                        // ref={num1Ref}
+                                        onChange={onChange }
+                                        ref={num1Ref}
                                         name="num1"
                                         type="text"
-                                        value={memoryCard?.num1}
+                                        defaultValue={memoryCard?.num1}
                                         className="input input-sm input-bordered w-10/12"
                                     />
                                 </div>
@@ -198,7 +201,7 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
                                         name="num2"
                                         ref={num2Ref}
                                         onChange={onChange}
-                                        value={memoryCard?.num2}
+                                        defaultValue={memoryCard?.num2}
                                         type="text"
                                         className="input input-sm  input-bordered w-10/12"
                                     />
@@ -211,7 +214,8 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
                                         id="num3"
                                         name="num3"
                                         ref={num3Ref}
-                                        value={memoryCard?.num3}
+                                        onChange={onChange}
+                                        defaultValue={memoryCard?.num3}
                                         type="text"
                                         className="input input-sm input-bordered w-10/12"
                                     />
@@ -224,8 +228,9 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
                                         id="num4"
                                         name="num4"
                                         ref={num4Ref}
+                                        onChange={onChange}
                                         type="text"
-                                        value={memoryCard?.num4}
+                                        defaultValue={memoryCard?.num4}
                                         className="input input-sm input-bordered w-10/12"
                                     />
                                 </div>
