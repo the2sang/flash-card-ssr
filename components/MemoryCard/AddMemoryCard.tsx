@@ -117,7 +117,7 @@ const setupData = (): TMemoryCardAdd => {
 
   function showExplanation(e: React.KeyboardEvent<HTMLInputElement>) {
     e.preventDefault()
-     alert("hi")
+     //alert("hi")
 
     setShowEx(true)
     // e.target.visible = true

@@ -52,9 +52,7 @@ const AddMiddleCategory = () => {
     router.refresh()
   }
 
-  //중분류 코드 가져오기
-
-
+  //대분류 코드 가져오기
   const mainCategoryQuery = useQuery({
     queryKey: ['mainCategoryData'],
     queryFn: () => getAllMainCategory()
@@ -97,7 +95,7 @@ const AddMiddleCategory = () => {
               ref={nameRef}
               className="input input-bordered w-[120px] w-full"
             />
-            {/*중분류*/}
+            {/*대분류*/}
             <select className="select select-bordered" ref={selectedRef} onChange={() => selectHandle}>
               {mainCategoryQuery.data?.list.map(data => (
                 <option key={data.id} ref={selectedRef} value={data.id} id={data.id} selected>{data.id}-{data.name}</option>

@@ -1,5 +1,5 @@
 export type TMainCategory = {
-  id?: string
+  id?: number
   name: string
 }
 
@@ -11,15 +11,9 @@ export type TMainCategorys =  {
 }
 
 export type TMiddleCategory = {
-  id?: string
+  id?: number
   name: string
   mainCategory: TMainCategory
-}
-
-export type TMiddleCategoryAdd = {
-  id?: string
-  name: string
-  mainCategoryId: string
 }
 
 
@@ -29,6 +23,14 @@ export type TMiddleCategorys = {
   msg: string
   list : TMiddleCategory[]
 }
+
+export type TMiddleCategoryAdd = {
+  id?: number
+  name: string
+  mainCategoryDto: TMainCategory
+}
+
+
 
 
 export type TMemoryCard =  {

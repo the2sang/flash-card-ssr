@@ -17,7 +17,7 @@ const MiddleCategoryList = () => {
   const { status, data, error, isFetching, isPreviousData} = useQuery({
     queryKey: ['middleCategorys'],
     queryFn: () => getAllMiddleCategory(),
-    // keepPreviousData: true,
+    keepPreviousData: true,
     // cacheTime: 1000,
     // staleTime: 1000,
   });

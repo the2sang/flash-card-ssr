@@ -1,9 +1,9 @@
-import {TMiddleCategory, TMiddleCategoryAdd} from "@/types/types";
+import {TMiddleCategory, TMiddleCategoryAdd, TMiddleCategorys} from "@/types/types";
 import middleCategory from "@/components/MiddleCategory/MiddleCategory";
 
 const baseUrl = "http://localhost:8080/api";
 
-export const getAllMiddleCategory = async (): Promise<TMiddleCategory> => {
+export const getAllMiddleCategory = async (): Promise<TMiddleCategorys> => {
   const res = await fetch(`${baseUrl}/middleCategoryFetch/all`, {cache: 'no-store'});
   const middleCategorys = await res.json();
 
@@ -46,7 +46,7 @@ export const editMiddleCategory = async (middleCategory: TMiddleCategoryAdd): Pr
     },
     body: JSON.stringify(middleCategory)
   })
-  alert(JSON.stringify(res));
+  //alert(JSON.stringify(res));
   const updatedMiddleCategory2 = await res.json();
   return updatedMiddleCategory2;
 }
