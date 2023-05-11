@@ -2,7 +2,7 @@ import axios from "axios";
 import {
   TMainCategorys,
   TMemoryCard,
-  TMemoryCardAdd,
+  TMemoryCardAdd, TMemoryCardPages,
   TMemoryCards,
   TMiddleCategory,
   TMiddleCategoryAdd
@@ -21,12 +21,13 @@ export const getAllMemoryCard = async (): Promise<TMemoryCards> => {
   return memoryCards;
 }
 
-export const getAllMemoryCardPage = async (page: number): Promise<TMemoryCards> => {
-  const res = await fetch(`${baseUrl}/memoryCard/next?page=${page}`);
+export const getAllMemoryCardPage = async (page: number): Promise<TMemoryCardPages> => {
+  const res = await fetch(`${baseUrl}/memoryCard/next?page=${page}`)
 
   // const pageSize = 10;
   //
-  const memoryCards = await res.json();
+  const memoryCards = await res.json()
+  console.log(memoryCards)
   //
   // const results = memoryCards.list.fill(0)
   //     .map((card, i) => {

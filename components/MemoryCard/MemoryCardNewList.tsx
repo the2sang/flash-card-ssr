@@ -19,9 +19,9 @@ const queryClient = new QueryClient()
 
 export default function MemoryCardPageList() {
   return (
-          <QueryClientProvider client={queryClient}>
+          // <QueryClientProvider client={queryClient}>
             <MemoryCardNewList />
-          </QueryClientProvider>
+          // </QueryClientProvider>
       )
 }
 
@@ -35,7 +35,8 @@ const MemoryCardNewList = () => {
   const [hasMore, setHasMore] = React.useState<boolean>(true);
 
   async function fetchMemoryCards(page = 0) {
-    const { data } = await axios.get(`http://localhost:8080/api/memoryCard/next?page=${page}`)
+     const { data } = await axios.get(`http://localhost:8080/api/memoryCard/next?page=${page}`)
+    //const data = await getAllMemoryCardPage(page)
 
     let totalPages:number = data.page.totalPages
 
@@ -51,8 +52,8 @@ const MemoryCardNewList = () => {
   const { status, data, error, isFetching, isPreviousData } = useQuery({
     queryKey: ['memoryCards', page],
     queryFn: () => fetchMemoryCards(page),
-    keepPreviousData: true,
-    staleTime: 2000,
+    keepPreviousData: false,
+    staleTime: 1000,
   })
 
   // Prefetch the next page!

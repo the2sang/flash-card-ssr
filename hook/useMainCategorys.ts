@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query"
-import {TMainCategorys} from "@/types/types";
+import {TMainCategory, TMainCategorys} from "@/types/types";
 
 
 
-const useMainCategorys: TMainCategorys  = async ( ) => {
+const useMainCategorys: () => Promise<TMainCategorys | unknown>  = async ( ): Promise<TMainCategorys | unknown> => {
 
 
   return useQuery<TMainCategorys>({

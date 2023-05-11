@@ -4,7 +4,7 @@ import {TMemoryCardAdd, TMiddleCategory, TMiddleCategoryAdd} from "@/types/types
 import {FiEdit, FiTrash2} from "react-icons/fi"
 import ModalForm from "@/components/ModalForm"
 import Modal from "@/components/Modal"
-import React, {FormEventHandler, useState} from "react"
+import React, {FormEventHandler, useRef, useState} from "react"
 import {useRouter} from "next/navigation"
 import {
   deleteMemoryCardCall,
@@ -24,7 +24,20 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
   const [categoryEdit, setCategoryEdit] = useState<string>(memoryCard?.question);
 
+  const questionRef = useRef<HTMLInputElement>()
+  const explationRef = useRef<HTMLTextAreaElement>()
+  const num1Ref = useRef<HTMLInputElement>()
+  const num2Ref = useRef<HTMLInputElement>()
+  const num3Ref = useRef<HTMLInputElement>()
+  const num4Ref = useRef<HTMLInputElement>()
+  const questionTeypRef = useRef<HTMLSelectElement>()
+  const levelRef = useRef<HTMLSelectElement>()
+  const rightAnswerRef = useRef<HTMLInputElement>()
+  const rightAnswerNumRef = useRef<HTMLSelectElement>()
+  const completionRef = useRef<HTMLInputElement>()
 
+  const [newCard, setNewCard] = useState<TMemoryCardAdd>()
+  const cardFormRef = useRef<HTMLFormElement>()
 
   const saveMemoryCard =
     useMutation((memoryCard: TMemoryCardAdd) => editMemoryCard({
@@ -41,7 +54,7 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
       rightAnswerNum: "",
       completed: "",
       learningCount: "",
-  }));
+    }));
 
   const onSaveMiddleCategory = () => {
     saveMemoryCard.mutate(memoryCard);
@@ -76,47 +89,52 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
             <form onSubmit={onSaveMiddleCategory} className="w-full">
               <h3 className="font-bold text-lg ml-20">문제 수정하기</h3>
               <div className="modal-new-box border-2 p-5" >
-                {/*<label >*/}
-                {/*  <span className="label-text">문제유형</span>*/}
-                {/*</label>*/}
-                {/*<input*/}
-                {/*    id="questionType"*/}
-                {/*    name="questionType"*/}
-                {/*    type="text"*/}
-                {/*    placeholder="Type hear"*/}
-                {/*    className="input input-sm input-bordered w-full"*/}
-                {/*/>*/}
                 <div className="flex-col space-x-3 mb-2">
-                  <select className="select select-bordered select-sm ">
-                    <option disabled selected>문제유형</option>
-                    <option>주관식</option>
-                    <option>객관식</option>
+                  <select ref={questionTeypRef} value={memoryCard?.questionType} className="select select-bordered select-sm ">
+                    <option disabled selected >문제유형</option>
+                    {memoryCard?.questionType === "1" ?
+                      <option ref={questionTeypRef} value={memoryCard?.questionType} >주관식</option> : ""}
+                    {memoryCard?.questionType === "2" ?
+                      <option value={memoryCard?.questionType}>객관식</option> : "" }
+                    <option>--------</option>
+                    <option ref={questionTeypRef} value={memoryCard?.questionType} >주관식</option>
+                    <option ref={questionTeypRef} value={memoryCard?.questionType} >객관식</option>
                   </select>
-                  <select className="select select-bordered select-sm">
-                    <option disabled selected>난이도</option>
-                    <option>상</option>
-                    <option>중</option>
-                    <option>하</option>
+                  <select ref={levelRef} value={memoryCard?.level} className="select select-bordered select-sm">
+                    <option  disabled selected>난이도</option>
+                    {memoryCard?.level === 1 ? <option ref={levelRef} value={memoryCard?.level}>상</option> : ""}
+                    {memoryCard?.level === 2 ? <option ref={levelRef} value={memoryCard?.level}>중</option> : ""}
+                    {memoryCard?.level === 3 ? <option ref={levelRef} value={memoryCard?.level}>하</option> : ""}
+                    <option>--------</option>
+                    <option ref={levelRef} value={memoryCard?.level}>상</option>
+                   <option ref={levelRef} value={memoryCard?.level}>중</option>
+                    <option ref={levelRef} value={memoryCard?.level}>하</option>
                   </select>
                   {/*<label >*/}
                   {/*  <span className="label-text">정답</span>*/}
                   {/*</label>*/}
-                  <label >
+                  <label htmlFor="rightAnswerNum" >
                     <span className="label-text">정답</span>
                   </label>
                   <input
-                      id="rightAnswer"
-                      name="rightAnswer"
-                      type="text"
-                      placeholder="정답"
-                      className="input input-sm input-bordered w-1/3"
-                      list="answer"
+                    id="rightAnswerNum"
+                    name="rightAnswerNum"
+                    type="text"
+                    ref={rightAnswerNumRef}
+                    value={memoryCard?.rightAnswerNum}
+                    placeholder="정답"
+                    className="input input-sm input-bordered w-1/3"
+                    list="answer"
                   />
                   <datalist id="answer">
-                    <option value="1" />
-                    <option value="2" />
-                    <option value="3" />
-                    <option value="4" />
+                    {/*{memoryCard?.rightAnswerNum === 1 ? <option selected ref={rightAnswerNumRef} value="1" />: ""}*/}
+                    {/*{memoryCard?.rightAnswerNum === 2 ? <option selected ref={rightAnswerNumRef} value="2" />: ""}*/}
+                    {/*{memoryCard?.rightAnswerNum === 3 ? <option selected ref={rightAnswerNumRef} value="3" />: ""}*/}
+                    {/*{memoryCard?.rightAnswerNum === 4 ? <option selected ref={rightAnswerNumRef} value="4" />: ""}*/}
+                    <option ref={rightAnswerNumRef} value="1" />
+                    <option ref={rightAnswerNumRef} value="2" />
+                    <option ref={rightAnswerNumRef} value="3" />
+                    <option ref={rightAnswerNumRef} value="4" />
                   </datalist>
                 </div>
                 <div className="mb-3">
@@ -124,34 +142,35 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
                     <span className="label-text">질문</span>
                   </label>
                   <input
-                      id="question"
-                      name="question"
-                      type="text"
-                      value={memoryCard?.question}
-                      placeholder="Type hear"
-                      className="input input-sm input-bordered w-10/12"
+                    id="question"
+                    name="question"
+                    type="text"
+                    value={memoryCard?.question}
+                    placeholder="Type hear"
+                    className="input input-sm input-bordered w-10/12"
                   />
                 </div>
                 <div className="mb-3"   >
                   {/*<label >*/}
                   {/*  <span className="label-text">부연 설명</span>*/}
                   {/*</label>*/}
-                  <label>
+                  <label htmlFor="explanation">
                     <span className="label-text mr-4">추가 설명</span>
                   </label>
-                  <textarea placeholder="부연설명" value={memoryCard?.explanation} className="textarea textarea-bordered textarea-md w-10/12" ></textarea>
+                  <textarea placeholder="부연설명" ref={explationRef} id="explanation" name="explanation" value={memoryCard?.explanation} className="textarea textarea-bordered textarea-md w-10/12" ></textarea>
                 </div>
                 <div className="mb-3">
-                  <label >
+                  <label htmlFor="num1" >
                     <span className="label-text mr-10">문항1</span>
                   </label>
                   <input
-                      id="num1"
-                      name="num1"
-                      type="text"
-                      value={memoryCard?.num1}
-                      placeholder="Type hear"
-                      className="input input-sm input-bordered w-10/12"
+                    id="num1"
+                    ref={num1Ref}
+                    name="num1"
+                    type="text"
+                    value={memoryCard?.num1}
+                    placeholder="Type hear"
+                    className="input input-sm input-bordered w-10/12"
                   />
                 </div>
                 <div className="mb-3">
@@ -159,12 +178,12 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
                     <span className="label-text mr-10">문항2</span>
                   </label>
                   <input
-                      id="num2"
-                      name="num2"
-                      value={memoryCard?.num2}
-                      type="text"
-                      placeholder="Type hear"
-                      className="input input-sm  input-bordered w-10/12"
+                    id="num2"
+                    name="num2"
+                    value={memoryCard?.num2}
+                    type="text"
+                    placeholder="Type hear"
+                    className="input input-sm  input-bordered w-10/12"
                   />
                 </div>
                 <div className="mb-3">
@@ -172,12 +191,12 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
                     <span className="label-text mr-10">문항3</span>
                   </label>
                   <input
-                      id="num3"
-                      name="num3"
-                      value={memoryCard?.num3}
-                      type="text"
-                      placeholder="Type hear"
-                      className="input input-sm input-bordered w-10/12"
+                    id="num3"
+                    name="num3"
+                    value={memoryCard?.num3}
+                    type="text"
+                    placeholder="Type hear"
+                    className="input input-sm input-bordered w-10/12"
                   />
                 </div>
                 <div className="mb-3">
@@ -185,12 +204,12 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
                     <span className="label-text mr-10">문항4</span>
                   </label>
                   <input
-                      id="num4"
-                      name="num4"
-                      type="text"
-                      value={memoryCard?.num4}
-                      placeholder="Type hear"
-                      className="input input-sm input-bordered w-10/12"
+                    id="num4"
+                    name="num4"
+                    type="text"
+                    value={memoryCard?.num4}
+                    placeholder="Type hear"
+                    className="input input-sm input-bordered w-10/12"
                   />
                 </div>
                 <div className="mb-3">

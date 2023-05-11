@@ -3,7 +3,7 @@
 import { AiOutlinePlus } from "react-icons/ai";
 import ModalForm from "@/components/ModalForm";
 import React, {FormEventHandler, useRef, useState} from "react";
-import {addMemoryCard, addMemoryCard2, editMemoryCard} from "@/app/api/memoryCardApi";
+import {addMemoryCard, addMemoryCard2, editMemoryCard, getAllMemoryCardPage} from "@/app/api/memoryCardApi";
 import { useRouter} from "next/navigation";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {TMainCategory, TMemoryCard, TMemoryCardAdd} from "@/types/types";
@@ -11,6 +11,7 @@ import {undefined} from "zod";
 import { toast, ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
 import {Button} from "@/components/common/Button";
+import axios from "axios";
 
 interface CategoryProps {
   id: string | undefined;
@@ -42,7 +43,6 @@ const AddMemoryCard = () => {
   const num4Ref = useRef<HTMLInputElement>()
   const questionTeypRef = useRef<HTMLSelectElement>()
   const levelRef = useRef<HTMLSelectElement>()
-  const rightAnswer = useRef<HTMLInputElement>()
   const rightAnswerRef = useRef<HTMLInputElement>()
   const rightAnswerNumRef = useRef<HTMLSelectElement>()
   const completionRef = useRef<HTMLInputElement>()
@@ -52,14 +52,23 @@ const AddMemoryCard = () => {
 
   const [showEx, setShowEx] = useState<boolean>(false)
 
+  async function fetchMemoryCards(page = 0) {
+    const { data } = await axios.get(`http://localhost:8080/api/memoryCard/next?page=${page}`)
+    let totalPages:number = data.page.totalPages
+    let pageCount = page * 10
+    return data;
+  }
+
+
   const createMemoryCardMutate = useMutation({
     mutationFn: () => addMemoryCard2(newCard as TMemoryCardAdd),
     onSuccess: data => {
       //clearData()
+      //fetchMemoryCards(0)
       cardFormRef.current?.reset()
       showToastMessage()
-      queryClient.setQueryData(["memoryCard"], data)
-      queryClient.invalidateQueries(["memoryCard"], {exact: true})
+      queryClient.setQueryData(["memoryCards"], data)
+      queryClient.invalidateQueries(["memoryCards"], {exact: true})
     }
   })
 const setupData = (): TMemoryCardAdd => {
@@ -73,21 +82,12 @@ const setupData = (): TMemoryCardAdd => {
     num2: num2Ref.current?.value,
     num3: num3Ref.current?.value,
     num4: num4Ref.current?.value,
-    rightAnswer: "",
+    rightAnswer: rightAnswerRef.current?.value,
     rightAnswerNum: rightAnswerNumRef.current?.value,
     learningCount: 0,
     middleCategoryId: 1,
   }
   return newMemoryCard;
-}
-
-const clearData = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    e.preventDefault()
-  setNewCard(setupData)
-  createMemoryCardMutate.mutate({
-    newCard
-  })
-
 }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -174,16 +174,6 @@ const clearData = (e: React.KeyboardEvent<HTMLInputElement>) => {
           <form onSubmit={handleSubmit} ref={cardFormRef} className="m-1">
             <h3 className="font-bold text-lg">문제 추가하기</h3>
             <div className="modal-box">
-              {/*<label >*/}
-              {/*  <span className="label-text">문제유형</span>*/}
-              {/*</label>*/}
-              {/*<input*/}
-              {/*    id="questionType"*/}
-              {/*    name="questionType"*/}
-              {/*    type="text"*/}
-              {/*    placeholder="Type hear"*/}
-              {/*    className="input input-sm input-bordered w-full"*/}
-              {/*/>*/}
               <div className="flex-col space-x-3 mb-2">
                 <select ref={questionTeypRef} className="select select-bordered select-sm ">
                   <option disabled selected>문제유형</option>
@@ -301,7 +291,7 @@ const clearData = (e: React.KeyboardEvent<HTMLInputElement>) => {
                 <input
                     id="rightAnswer"
                     name="rightAnswer"
-                    ref={rightAnswer}
+                    ref={rightAnswerRef}
                     type="text"
                     placeholder="Type hear"
                     className="input input-sm input-bordered w-full"
