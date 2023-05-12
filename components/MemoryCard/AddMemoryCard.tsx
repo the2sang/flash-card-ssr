@@ -29,11 +29,9 @@ const AddMemoryCard = () => {
     });
   };
 
-  const nameRef = useRef<HTMLInputElement>()
   const queryClient = useQueryClient()
   const router  = useRouter();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [newMemoryCardValue, setNewMemoryCardValue] = useState<string>("");
 
   const questionRef = useRef<HTMLInputElement>()
   const explationRef = useRef<HTMLTextAreaElement>()
@@ -46,11 +44,14 @@ const AddMemoryCard = () => {
   const rightAnswerRef = useRef<HTMLInputElement>()
   const rightAnswerNumRef = useRef<HTMLSelectElement>()
   const completionRef = useRef<HTMLInputElement>()
+  const searchQuestionRef = useRef<HTMLInputElement>()
 
   const [newCard, setNewCard] = useState<TMemoryCardAdd>()
   const cardFormRef = useRef<HTMLFormElement>()
 
   const [showEx, setShowEx] = useState<boolean>(false)
+
+  const [toggle, setToggle] = useState<boolean>(false)
 
   async function fetchMemoryCards(page = 0) {
     const { data } = await axios.get(`http://localhost:8080/api/memoryCard/next?page=${page}`)
@@ -58,7 +59,6 @@ const AddMemoryCard = () => {
     let pageCount = page * 10
     return data;
   }
-
 
   const createMemoryCardMutate = useMutation({
     mutationFn: () => addMemoryCard2(newCard as TMemoryCardAdd),
@@ -129,35 +129,38 @@ const setupData = (): TMemoryCardAdd => {
       <div className="justify-center ml-10 mr-10">
         <ToastContainer />
         <div className="flex flex-col justify-start">
-          <div className="grid h-24 bg-white rounded-box place-items-start">
+          <div className="grid h-20 bg-white rounded-box place-items-start max-w-fit">
             <div className="flex mt-5 ">
-              <p className="p-2 ml-2 text-blue-500 text-sm">검색조건</p>
-              <select className="select select-bordered w-44 max-w-xs ml-3 mt-0.5">
+              <select className="select select-bordered select-sm ml-3 mt-0.5">
                 <option disabled selected>대분류</option>
                 <option>리눅스 마스터 2급</option>
                 <option>SQLD</option>
                 <option>데이터분석기사</option>
               </select>
-              <select className="select select-bordered w-44 max-w-xs ml-3 mt-0.5">
+              <select className="select select-bordered select-sm ml-3 mt-0.5">
                 <option disabled selected>중분류</option>
                 <option>리눅스 마스터 2급</option>
                 <option>SQLD</option>
                 <option>데이터분석기사</option>
               </select>
-              <select className="select select-bordered w-32 max-w-xs ml-3 mt-0.5">
+              <select className="select select-bordered select-sm ml-3 mt-0.5">
                 <option disabled selected>문제 난이도</option>
                 <option>상</option>
                 <option>중</option>
                 <option>하</option>
               </select>
-              <input type="text" placeholder="질문 내용 검색" className="input input-bordered input-info w-56 ml-3" />
+              <svg width="25px" onClick={()=> setToggle(!toggle) } height="25px" className="ml-3 mt-2 duration-200 cursor-pointer" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.29289 1.29289C9.48043 1.10536 9.73478 1 10 1H18C19.6569 1 21 2.34315 21 4V8C21 8.55228 20.5523 9 20 9C19.4477 9 19 8.55228 19 8V4C19 3.44772 18.5523 3 18 3H11V8C11 8.55228 10.5523 9 10 9H5V20C5 20.5523 5.44772 21 6 21H10C10.5523 21 11 21.4477 11 22C11 22.5523 10.5523 23 10 23H6C4.34315 23 3 21.6569 3 20V8C3 7.73478 3.10536 7.48043 3.29289 7.29289L9.29289 1.29289ZM6.41421 7H9V4.41421L6.41421 7ZM20.1716 18.7574C20.6951 17.967 21 17.0191 21 16C21 13.2386 18.7614 11 16 11C13.2386 11 11 13.2386 11 16C11 18.7614 13.2386 21 16 21C17.0191 21 17.967 20.6951 18.7574 20.1716L21.2929 22.7071C21.6834 23.0976 22.3166 23.0976 22.7071 22.7071C23.0976 22.3166 23.0976 21.6834 22.7071 21.2929L20.1716 18.7574ZM13 16C13 14.3431 14.3431 13 16 13C17.6569 13 19 14.3431 19 16C19 17.6569 17.6569 19 16 19C14.3431 19 13 17.6569 13 16Z" fill="#000000"/>
+              </svg>
+              {toggle && <input type="text" placeholder="질문 내용 검색" id="searchQuestion"
+                       className="input input-bordered input-sm w-56 ml-3" />}
               <div className="form-control ml-3">
-                <label className="cursor-pointer label">
-                  <span className="label-text text-md mr-2">완료구분</span>
-                  <input type="checkbox" checked className="checkbox checkbox-info" />
+                <label className="cursor-pointer label" htmlFor="completedCheck">
+                  <span className="label-text text-sm mr-2">완료구분</span>
+                  <input type="checkbox" id="completedCheck" defaultChecked={false} className="checkbox checkbox-info" />
                 </label>
               </div>
-              <button className="btn btn-outline ml-5">검색하기</button>
+              <Button className="btm-sm rounded-box ml-5 mr-5">검색하기</Button>
             </div>
 
           </div>

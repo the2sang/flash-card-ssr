@@ -45,7 +45,7 @@ const MemoryCardNewList = () => {
 
     //alert(data.page.totalElements)
     // setHasMore(page < data.page.size ? true : false)
-    setHasMore(totalPages % 10 < 10 ? true : false)
+    setHasMore(page < totalPages ? true : false)
     return data;
   }
 
@@ -83,8 +83,9 @@ const MemoryCardNewList = () => {
         <tbody>
         {/*{data}*/}
         {data?.page.content.map((memoryCard) => (
+            <React.Fragment key={memoryCard.id}>
               <MemoryCard  key={memoryCard.id} id={memoryCard.id} memoryCard={memoryCard} />
-
+            </React.Fragment>
         ))}
         </tbody>
       </table>

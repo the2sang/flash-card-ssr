@@ -33,6 +33,20 @@ export const editMainCategory = async (mainCategory: TMainCategory): Promise<TMa
   return updatedMainCategory;
 }
 
+//대분류 Select Option
+export const getMainCategorySelect = async () => {
+  const res = await fetch(`${baseUrl}/mainCategory/selectOption`)
+  const mainCategorySelect = res.json();
+  return mainCategorySelect;
+}
+
+//중분류 Select Option
+export const getMiddleCategorySelect = async () => {
+  const res = await fetch(`${baseUrl}/middleCategory/selectOption`)
+  const mainCategorySelect = res.json();
+  return mainCategorySelect;
+}
+
 // 대분류 삭제
 // export const deleteMainCategory = async (id: string | undefined): Promise<void> => {
 //   console.log('delete:' + id);

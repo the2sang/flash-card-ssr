@@ -85,3 +85,57 @@ export type TMemoryCardPages = {
     empty: false,
   },
 }
+
+export type SelectOption = {
+  label: string,
+  value: number
+}
+
+export const levelOption = [
+  {
+    label: "상",
+    value: 1,
+  },
+  {
+    label: "중",
+    value: 2,
+  },
+  {
+    label: "하",
+    value: 3,
+  },
+]
+
+export const questionTypeOption = [
+
+  {
+    label: "주관식",
+    value: 1,
+  },
+  {
+    label: "객관식",
+    value: 2,
+  },
+]
+
+export const rightAnswerOption = [
+
+  {
+    label: "1번",
+    value: 1,
+  },
+  {
+    label: "2번",
+    value: 2,
+  },
+
+  {
+    label: "3번",
+    value: 3,
+  },
+  {
+    label: "4번",
+    value: 4,
+  },
+
+]

@@ -1,6 +1,13 @@
 "use client"
 
-import {TMemoryCardAdd, TMiddleCategory, TMiddleCategoryAdd} from "@/types/types"
+import {
+    levelOption,
+    questionTypeOption, rightAnswerOption,
+    SelectOption,
+    TMemoryCardAdd,
+    TMiddleCategory,
+    TMiddleCategoryAdd
+} from "@/types/types"
 import {FiEdit, FiTrash2} from "react-icons/fi"
 import ModalForm from "@/components/ModalForm"
 import Modal from "@/components/Modal"
@@ -10,7 +17,8 @@ import {
     deleteMemoryCardCall,
     editMemoryCard,
 } from "@/app/api/memoryCardApi"
-import {useMutation} from "@tanstack/react-query"
+import {useMutation, useQuery} from "@tanstack/react-query"
+import {getAllMainCategory, getMainCategorySelect, getMiddleCategorySelect} from "@/app/api/mainCategoryApi";
 
 interface CategoryProps {
     id: string | undefined;
@@ -22,9 +30,6 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
     const router = useRouter();
     const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
     const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
-    const [categoryEdit, setCategoryEdit] = useState<string>(memoryCard?.question);
-    const [middleCategory, setMiddleCategory]
-      = useState<TMiddleCategory>(memoryCard?.middleCategory)
 
     const questionRef = useRef<HTMLInputElement>()
     const explationRef = useRef<HTMLTextAreaElement>()
@@ -36,7 +41,10 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
     const levelRef = useRef<HTMLSelectElement>()
     const rightAnswerRef = useRef<HTMLInputElement>()
     const rightAnswerNumRef = useRef<HTMLSelectElement>()
+    const middleCategoryIdRef = useRef<HTMLSelectElement>()
     const completionRef = useRef<HTMLInputElement>()
+
+    const [mainCategorySelect, setMainCategorySelect] = useState<SelectOption[]>([]);
 
     const [newCard, setNewCard] = useState<TMemoryCardAdd>()
     const cardFormRef = useRef<HTMLFormElement>()
@@ -50,6 +58,9 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
         setInputVal(e.currentTarget.value)
     }, [])
 
+    const onSelectChange = useCallback((e:React.ChangeEvent<HTMLSelectElement>) => {
+        setInputVal(e.currentTarget.value)
+    }, [])
 
     const saveMemoryCard =
         useMutation((memoryCard: TMemoryCardAdd) => editMemoryCard({
@@ -62,12 +73,13 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
             num2: num2Ref.current?.value,
             num3: num3Ref.current?.value,
             num4: num4Ref.current?.value,
-            rightAnswer: rightAnswerNumRef.current?.value,
+            rightAnswer: rightAnswerRef.current?.value,
             rightAnswerNum: rightAnswerNumRef.current?.value,
-            middleCategoryId: memoryCard.middleCategoryId
+            middleCategoryId: middleCategoryIdRef.current?.value
         }));
 
     const onSaveMiddleCategory = () => {
+        console.log(memoryCard)
         saveMemoryCard.mutate(memoryCard);
         //alert(middleCategory?.name)
         setOpenModalEdit(false);
@@ -83,7 +95,20 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
         router.refresh();
     }
 
+    //중분류 코드 가져오기
+    const middleCategorySelectQuery = useQuery({
+        queryKey: ['middleCategorySelect'],
+        queryFn: () => getMiddleCategorySelect()
+    });
+
+    if (middleCategorySelectQuery.status === "loading") return <h1>Loading...</h1>
+    if (middleCategorySelectQuery.status === "error") {
+        return <h1>{JSON.stringify(middleCategorySelectQuery.error)}</h1>
+    }
+
+
     return (
+      <React.Fragment key={memoryCard?.id}>
         <tr key={memoryCard?.id}>
             <td className="w-full">{memoryCard?.question}</td>
             <td className="flex gap-3">
@@ -100,61 +125,44 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
                             <div className="modal-new-box border-2 p-5">
                                 <div className="flex-col space-x-3 mb-2">
                                     <select ref={questionTeypRef} defaultValue={memoryCard?.questionType}
-                                            className="select select-bordered select-sm ">
+                                            className="select select-bordered select-sm " onChange={onSelectChange}>
                                         <option disabled selected>문제유형</option>
-                                        {memoryCard?.questionType === "1" ?
-                                            <option ref={questionTeypRef}
-                                                    value={memoryCard?.questionType}>주관식</option> : ""}
-                                        {memoryCard?.questionType === "2" ?
-                                            <option value={memoryCard?.questionType}>객관식</option> : ""}
-                                        <option>--------</option>
-                                        <option ref={questionTeypRef} value={memoryCard?.questionType}>주관식</option>
-                                        <option ref={questionTeypRef} value={memoryCard?.questionType}>객관식</option>
+                                        {questionTypeOption.map((option) => (
+                                          <option ref={questionTeypRef} key={option.value} value={option.value} >{option.label}</option>
+                                        ))}
                                     </select>
-                                    <select ref={levelRef} defaultValue={memoryCard?.level}
+                                    <select ref={levelRef} defaultValue={memoryCard?.level} onChange={onSelectChange}
                                             className="select select-bordered select-sm">
                                         <option disabled selected>난이도</option>
-                                        {memoryCard?.level === 1 ?
-                                            <option ref={levelRef} value={memoryCard?.level}>상</option> : ""}
-                                        {memoryCard?.level === 2 ?
-                                            <option ref={levelRef} value={memoryCard?.level}>중</option> : ""}
-                                        {memoryCard?.level === 3 ?
-                                            <option ref={levelRef} value={memoryCard?.level}>하</option> : ""}
-                                        <option>--------</option>
-                                        <option ref={levelRef} value={memoryCard?.level}>상</option>
-                                        <option ref={levelRef} value={memoryCard?.level}>중</option>
-                                        <option ref={levelRef} value={memoryCard?.level}>하</option>
+                                        {levelOption.map((option) => (
+                                          <option ref={levelRef} key={option.value} value={option.value}>{option.label}</option>
+                                        ))}
                                     </select>
                                     {/*<label >*/}
                                     {/*  <span className="label-text">정답</span>*/}
                                     {/*</label>*/}
-                                    <label htmlFor="rightAnswerNum">
-                                        <span className="label-text">정답</span>
-                                    </label>
-                                    <input
-                                        id="rightAnswerNum"
-                                        name="rightAnswerNum"
-                                        type="text"
-                                        onChange={onChange}
-                                        ref={rightAnswerNumRef}
-                                        defaultValue={memoryCard?.rightAnswerNum}
-                                        placeholder="정답"
-                                        className="input input-sm input-bordered w-1/3"
-                                        list="answer"
-                                    />
-                                    <datalist id="answer">
-                                        {/*{memoryCard?.rightAnswerNum === 1 ? <option selected ref={rightAnswerNumRef} value="1" />: ""}*/}
-                                        {/*{memoryCard?.rightAnswerNum === 2 ? <option selected ref={rightAnswerNumRef} value="2" />: ""}*/}
-                                        {/*{memoryCard?.rightAnswerNum === 3 ? <option selected ref={rightAnswerNumRef} value="3" />: ""}*/}
-                                        {/*{memoryCard?.rightAnswerNum === 4 ? <option selected ref={rightAnswerNumRef} value="4" />: ""}*/}
-                                        <option ref={rightAnswerNumRef} value="1"/>
-                                        <option ref={rightAnswerNumRef} value="2"/>
-                                        <option ref={rightAnswerNumRef} value="3"/>
-                                        <option ref={rightAnswerNumRef} value="4"/>
-                                    </datalist>
+                                    <select ref={rightAnswerNumRef} defaultValue={memoryCard?.rightAnswerNum} onChange={onSelectChange}
+                                            className="select select-bordered select-sm">
+                                        <option disabled selected>정답</option>
+                                        {rightAnswerOption.map((option) => (
+                                          <option ref={rightAnswerNumRef} key={option.value} value={option.value}>{option.label}</option>
+                                        ))}
+                                    </select>
                                 </div>
                                 <div className="mb-3">
-                                    <label className="mr-10">
+                                    <label className="mr-10" htmlFor="middleCat">
+                                        <span className="label-text">중분류</span>
+                                    </label>
+                                    <select ref={middleCategoryIdRef} defaultValue={memoryCard?.middleCategoryId} id="middleCat" onChange={onSelectChange}
+                                            className="select select-bordered select-sm">
+                                        <option disabled selected>중분류</option>
+                                        {middleCategorySelectQuery.data?.list.map((option) => (
+                                          <option ref={middleCategoryIdRef} value={option.value}>{option.label}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="mb-3">
+                                    <label className="mr-10" htmlFor="question" >
                                         <span className="label-text">질문</span>
                                     </label>
                                     <input
@@ -254,7 +262,7 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
                 </Modal>
             </td>
         </tr>
-
+      </React.Fragment>
     );
 };
 
