@@ -37,12 +37,9 @@ const MemoryCardNewList = () => {
   async function fetchMemoryCards(page = 0) {
      const { data } = await axios.get(`http://localhost:8080/api/memoryCard/next?page=${page}`)
     //const data = await getAllMemoryCardPage(page)
-
     let totalPages:number = data.page.totalPages
-
     let pageCount = page * 10
     console.log(data)
-
     //alert(data.page.totalElements)
     // setHasMore(page < data.page.size ? true : false)
     setHasMore(page < totalPages ? true : false)

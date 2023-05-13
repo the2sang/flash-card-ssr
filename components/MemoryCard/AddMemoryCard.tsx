@@ -5,13 +5,15 @@ import ModalForm from "@/components/ModalForm";
 import React, {FormEventHandler, useRef, useState} from "react";
 import {addMemoryCard, addMemoryCard2, editMemoryCard, getAllMemoryCardPage} from "@/app/api/memoryCardApi";
 import { useRouter} from "next/navigation";
-import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {TMainCategory, TMemoryCard, TMemoryCardAdd} from "@/types/types";
 import {undefined} from "zod";
 import { toast, ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
 import {Button} from "@/components/common/Button";
 import axios from "axios";
+import {getAllMainCategory, getMainCategorySelect} from "@/app/api/mainCategoryApi";
+import {getMiddleCategoryByMainCatId} from "@/app/api/middleCategoryApi";
 
 interface CategoryProps {
   id: string | undefined;
@@ -45,8 +47,13 @@ const AddMemoryCard = () => {
   const rightAnswerNumRef = useRef<HTMLSelectElement>()
   const completionRef = useRef<HTMLInputElement>()
   const searchQuestionRef = useRef<HTMLInputElement>()
+  const mainCategoryIdRef = useRef<HTMLSelectElement>()
+  const middleCategoryIdRef = useRef<HTMLSelectElement>()
+  const [mainCategoryId, setMainCategoryId] = useState<string>("1")
+
 
   const [newCard, setNewCard] = useState<TMemoryCardAdd>()
+
   const cardFormRef = useRef<HTMLFormElement>()
 
   const [showEx, setShowEx] = useState<boolean>(false)
@@ -123,6 +130,41 @@ const setupData = (): TMemoryCardAdd => {
     // e.target.visible = true
   }
 
+  //대분류 검색 코드 가져오기
+  const mainCategorySelectQuery = useQuery({
+    queryKey: ['mainCategorySelect'],
+    queryFn: () => getMainCategorySelect()
+  });
+
+  if (mainCategorySelectQuery.status === "loading") return <h1>Loading...</h1>
+  if (mainCategorySelectQuery.status === "error") {
+    return <h1>{JSON.stringify(mainCategorySelectQuery.error)}</h1>
+  }
+
+  async function getMiddleCategoryById(page = 0) {
+    const { data } = await  getMiddleCategoryByMainCatId(page)
+    return data;
+  }
+
+  //대분류 선색된 중분류 검색 코드 가져오기
+  const middleCategorySelectQuery = useQuery({
+    queryKey: ['middleCategorySelect', mainCategoryId],
+    queryFn: () => getMiddleCategoryByMainCatId(mainCategoryId)
+  });
+
+  if (middleCategorySelectQuery.status === "loading") return <h1>Loading...</h1>
+  if (middleCategorySelectQuery.status === "error") {
+    return <h1>{JSON.stringify(middleCategorySelectQuery.error)}</h1>
+  }
+
+
+  async function selectMainCategoryHandle(e:React.ChangeEvent<HTMLSelectElement>) {
+    e.preventDefault()
+    const param = mainCategoryIdRef.current?.value
+    setMainCategoryId(param)
+    const result = await  getMiddleCategoryByMainCatId(param)
+    alert(result.list.length())
+  }
 
   return (
     <>
@@ -131,17 +173,17 @@ const setupData = (): TMemoryCardAdd => {
         <div className="flex flex-col justify-start">
           <div className="grid h-20 bg-white rounded-box place-items-start max-w-fit">
             <div className="flex mt-5 ">
-              <select className="select select-bordered select-sm ml-3 mt-0.5">
+              <select onChange={selectMainCategoryHandle} ref={mainCategoryIdRef} className="select select-bordered select-sm ml-3 mt-0.5">
                 <option disabled selected>대분류</option>
-                <option>리눅스 마스터 2급</option>
-                <option>SQLD</option>
-                <option>데이터분석기사</option>
+                {mainCategorySelectQuery.data?.list.map((option) => (
+                  <option ref={mainCategoryIdRef} value={option.value}>{option.label}</option>
+                ))}
               </select>
               <select className="select select-bordered select-sm ml-3 mt-0.5">
                 <option disabled selected>중분류</option>
-                <option>리눅스 마스터 2급</option>
-                <option>SQLD</option>
-                <option>데이터분석기사</option>
+                {middleCategorySelectQuery.data?.list.map((option) => (
+                  <option ref={middleCategoryIdRef} value={option.value}>{option.label}</option>
+                ))}
               </select>
               <select className="select select-bordered select-sm ml-3 mt-0.5">
                 <option disabled selected>문제 난이도</option>

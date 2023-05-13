@@ -56,3 +56,18 @@ export const deleteMiddleCategoryCall = async (id: string): Promise<void> => {
     method: 'DELETE'
   })
 }
+
+//중분류 Select Option
+export const getMiddleCategorySelect = async () => {
+  const res = await fetch(`${baseUrl}/middleCategory/selectOption`)
+  const mainCategorySelect = res.json();
+  return mainCategorySelect;
+}
+
+
+
+export const getMiddleCategoryByMainCatId = async (id: string | undefined) => {
+  const res = await  fetch(`${baseUrl}/middleCategory/mainCategoryCode?id=${id}`)
+  const middleCategoryByMainCat = res.json()
+  return middleCategoryByMainCat
+}

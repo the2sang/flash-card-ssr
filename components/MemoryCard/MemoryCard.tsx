@@ -18,7 +18,8 @@ import {
     editMemoryCard,
 } from "@/app/api/memoryCardApi"
 import {useMutation, useQuery} from "@tanstack/react-query"
-import {getAllMainCategory, getMainCategorySelect, getMiddleCategorySelect} from "@/app/api/mainCategoryApi";
+import {getAllMainCategory, getMainCategorySelect} from "@/app/api/mainCategoryApi";
+import {getMiddleCategorySelect} from "@/app/api/middleCategoryApi";
 
 interface CategoryProps {
     id: string | undefined;
