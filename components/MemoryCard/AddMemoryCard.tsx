@@ -20,6 +20,7 @@ import {Button} from "@/components/common/Button";
 import axios from "axios";
 import {getAllMainCategory, getMainCategorySelect} from "@/app/api/mainCategoryApi";
 import {getMiddleCategoryByMainCatId, getMiddleCategorySelect} from "@/app/api/middleCategoryApi";
+import {revalidatePath} from "next/cache";
 
 interface CategoryProps {
   id: string | undefined;
@@ -92,6 +93,7 @@ const AddMemoryCard = () => {
       showToastMessage()
       queryClient.setQueryData(["memoryCards"], data)
       queryClient.invalidateQueries(["memoryCards"], {exact: true})
+      revalidatePath("/memoryCard")
     }
   })
   const setupData = (): TMemoryCardAdd => {
@@ -108,7 +110,7 @@ const AddMemoryCard = () => {
       rightAnswer: rightAnswerRef.current?.value!,
       rightAnswerNum: rightAnswerNumRef.current?.value!,
       learningCount: 0,
-      middleCategoryId: 1,
+      middleCategoryId: Number(middleCategoryIdRef.current?.value!),
     }
     return newMemoryCard;
   }
@@ -265,7 +267,7 @@ const AddMemoryCard = () => {
                   <label  className="ml-3">
                     <span className="label-text">중분류</span>
                   </label>
-                  <select className="select select-bordered select-sm ml-3 mt-0.5">
+                  <select ref={middleCategoryIdRef}  className="select select-bordered select-sm ml-3 mt-0.5">
                     <option disabled selected>중분류</option>
                     {middleCategorySelectData?.map((option: SelectOption) => (
                         <option ref={middleCategoryIdRef} value={option.value}>{option.label}</option>
