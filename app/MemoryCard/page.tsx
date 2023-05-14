@@ -21,8 +21,6 @@ const MemoryCardPage = () => {
     setMounted(true)
   }, [])
 
-
-
     return ( mounted &&
         <div>
             <div style={{ justifyContent: "center", padding: "10px"}}>
