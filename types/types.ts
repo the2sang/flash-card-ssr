@@ -101,6 +101,10 @@ export type MemoryCardSearchParam = {
 
 }
 
+// export type MemoryCardPage = {
+//   success
+// }
+
 export const levelOption = [
   {
     label: "상",

@@ -72,6 +72,10 @@ const AddMemoryCard = () => {
 
   const [toggle, setToggle] = useState<boolean>(false)
 
+  //const [middleCategorySelectData, setMiddleCategorySelectData] = useState<SelectOption[]>()
+
+
+
   async function fetchMemoryCards(page = 0) {
     const { data } = await axios.get(`http://localhost:8080/api/memoryCard/next?page=${page}`)
     let totalPages:number = data.page.totalPages
@@ -207,10 +211,10 @@ const AddMemoryCard = () => {
             </Button>
           </div>
           <ModalForm modalOpen={modalOpen} setModalOpen={setModalOpen} >
-            <form onSubmit={handleSubmit} ref={cardFormRef} className="m-1">
+            <form onSubmit={handleSubmit} ref={cardFormRef} className="m-1 border-2 p-5 m-10">
               <h3 className="font-bold text-lg">문제 추가하기</h3>
-              <div className="modal-box">
-                <div className="flex-col space-x-3 mb-2">
+              <div className="modal-new-boxm-5 p-3 ">
+                <div className="flex-col space-x-3 mb-3">
                   <select ref={questionTeypRef} className="select select-bordered select-sm ">
                     <option disabled selected>문제유형</option>
                     <option value={1} >주관식</option>
@@ -244,7 +248,31 @@ const AddMemoryCard = () => {
                     <option ref={rightAnswerNumRef} value={4} />
                   </datalist>
                 </div>
-                <div className="mb-2">
+                {/*//TODO 중분류 코드 추가하기*/}
+                <div className="mb-3">
+
+                </div>
+                <div className="mb-3" >
+                  <label>
+                    <span className="label-text">대분류</span>
+                  </label>
+                  <select onChange={(event) => selectMainCategoryHandle(event)} ref={mainCategoryIdRef} className="select select-bordered select-sm ml-3 mt-0.5">
+                    <option disabled selected>대분류</option>
+                    {mainCategorySelectQuery.data?.list.map((option: SelectOption) => (
+                        <option ref={mainCategoryOptionRef}  value={option.value}>{option.label}</option>
+                    ))}
+                  </select>
+                  <label  className="ml-3">
+                    <span className="label-text">중분류</span>
+                  </label>
+                  <select className="select select-bordered select-sm ml-3 mt-0.5">
+                    <option disabled selected>중분류</option>
+                    {middleCategorySelectData?.map((option: SelectOption) => (
+                        <option ref={middleCategoryIdRef} value={option.value}>{option.label}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="mb-3">
                   <label >
                     <span className="label-text">질문</span>
                   </label>
@@ -257,7 +285,7 @@ const AddMemoryCard = () => {
                       className="input input-sm input-bordered w-full"
                   />
                 </div>
-                <div className="mb-2"   >
+                <div className="mb-3"   >
                   <label >
                     <span className="label-text" onClick={()=> {setShowEx(!showEx)}}  >부연 설명(if click then show)</span>
                   </label>
@@ -268,7 +296,7 @@ const AddMemoryCard = () => {
                           className="textarea textarea-bordered textarea-md w-full" />
                   }
                 </div>
-                <div className="mb-2">
+                <div className="mb-3">
                   <label >
                     <span className="label-text">문항1</span>
                   </label>
@@ -281,7 +309,7 @@ const AddMemoryCard = () => {
                       className="input input-sm input-bordered w-full"
                   />
                 </div>
-                <div className="mb-2">
+                <div className="mb-3">
                   <label >
                     <span className="label-text">문항2</span>
                   </label>
@@ -294,7 +322,7 @@ const AddMemoryCard = () => {
                       className="input input-sm  input-bordered w-full"
                   />
                 </div>
-                <div className="mb-2">
+                <div className="mb-3">
                   <label >
                     <span className="label-text">문항3</span>
                   </label>
@@ -307,7 +335,7 @@ const AddMemoryCard = () => {
                       className="input input-sm input-bordered w-full"
                   />
                 </div>
-                <div className="mb-2">
+                <div className="mb-3">
                   <label >
                     <span className="label-text">문항4</span>
                   </label>
@@ -320,7 +348,7 @@ const AddMemoryCard = () => {
                       className="input input-sm input-bordered w-full"
                   />
                 </div>
-                <div className="mb-2">
+                <div className="mb-3">
                   <label >
                     <span className="label-text">정답(단답형)</span>
                   </label>
@@ -334,7 +362,7 @@ const AddMemoryCard = () => {
                   />
                 </div>
                 <div className="flex">
-                  <div className="mb-2 mt-2">
+                  <div className="mb-3 mt-2">
                     <button type="submit" disabled={createMemoryCardMutate.isLoading} className="btn w-4/5">
                       {createMemoryCardMutate.isLoading ? "Loading..." : "Create"}
                     </button>
@@ -343,7 +371,7 @@ const AddMemoryCard = () => {
                 </div>
               </div>
             </form>
-            {/*<div className="mb-2 mt-2">*/}
+            {/*<div className="mb-3 mt-2">*/}
             {/*  <button onClick={clearData}  disabled={createMemoryCardMutate.isLoading} className="btn w-4/5">*/}
             {/*    {createMemoryCardMutate.isLoading ? "Loading..." : "Next"}*/}
             {/*  </button>*/}
