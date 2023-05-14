@@ -1,5 +1,5 @@
 export type TMainCategory = {
-  id?: number
+  id?: number | string | undefined
   name: string
 }
 
@@ -48,8 +48,8 @@ export type TMemoryCard =  {
 }
 
 export type TMemoryCardAdd =  {
-  id:number,
-  level: number
+  id?:number,
+  level: number | string
   question: string
   questionType: string
   explanation: string
@@ -58,9 +58,9 @@ export type TMemoryCardAdd =  {
   num3: string
   num4: string
   rightAnswer: string
-  rightAnswerNum: number
-  completed: number
-  learningCount: number
+  rightAnswerNum: number | string
+  completed: number | string
+  learningCount: number | string
   middleCategoryId: number
 }
 
@@ -89,6 +89,16 @@ export type TMemoryCardPages = {
 export type SelectOption = {
   label: string,
   value: number
+}
+
+export type MemoryCardSearchParam = {
+  mainCategoryId?: string,
+  middleCategoryId?: string,
+  completed?: string,
+  question?: string,
+  size: number,
+  page: number
+
 }
 
 export const levelOption = [
@@ -137,5 +147,6 @@ export const rightAnswerOption = [
     label: "4번",
     value: 4,
   },
+
 
 ]

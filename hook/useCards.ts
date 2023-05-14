@@ -5,7 +5,7 @@ const useCards : TMemoryCards  = ( param: number)  => {
   return useQuery<TMemoryCards>({
     queryKey: ["cards"],
     queryFn: () =>
-      fetch(`http://localhost:8080/api/memorycard/middlecode?param=${param}`)
+      fetch(`http://localhost:8080/api/memoryCard/middlecode?param=${param}`)
         .then((res) => res.json())
         .catch((error) => {
           throw new Error(error.message)

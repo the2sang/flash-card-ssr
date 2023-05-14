@@ -66,7 +66,7 @@ export const getMiddleCategorySelect = async () => {
 
 
 
-export const getMiddleCategoryByMainCatId = async (id: string | undefined) => {
+export const getMiddleCategoryByMainCatId = async (id: string | number) => {
   const res = await  fetch(`${baseUrl}/middleCategory/mainCategoryCode?id=${id}`)
   const middleCategoryByMainCat = res.json()
   return middleCategoryByMainCat

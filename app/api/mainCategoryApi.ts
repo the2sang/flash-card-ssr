@@ -51,7 +51,7 @@ export const getMainCategorySelect = async () => {
 // }
 
 //대분류 삭제
-export const deleteMainCategory = async (id: string | undefined): Promise<void> => {
+export const deleteMainCategory = async (id: string | number): Promise<void> => {
   //console.log('delete:' + id);
   await fetch(`${baseUrl}/mainCategory/${id}`, {
     method: 'POST'

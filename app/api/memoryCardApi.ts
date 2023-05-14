@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+  MemoryCardSearchParam,
   TMainCategorys,
   TMemoryCard,
   TMemoryCardAdd, TMemoryCardPages,
@@ -96,4 +97,16 @@ export const deleteMemoryCardCall = async (id: string): Promise<void> => {
   await fetch(`${baseUrl}/memoryCard/${id}`, {
     method: 'DELETE'
   })
+}
+
+export const searchMemoryCard = async (param: MemoryCardSearchParam) => {
+  const res = await fetch(`${baseUrl}/memoryCard/paging` ,{
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(param)
+  })
+  const resultMemoryCard = await res.json();
+  return resultMemoryCard;
 }

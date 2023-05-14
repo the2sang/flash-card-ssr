@@ -54,9 +54,9 @@ const MainCategory: React.FC<CategoryProps> = ({mainCategory}) => {
   }
 
   const deleteMainCat
-    = useMutation((id: string ) => deleteMainCategory(id));
+    = useMutation((id: string | number ) => deleteMainCategory(id));
 
-  const onDeleteCategory = (id: string) => {
+  const onDeleteCategory = (id: string | number ) => {
     deleteMainCat.mutate(id);
     setOpenModalDelete(false);
     router.refresh();
@@ -110,7 +110,7 @@ const MainCategory: React.FC<CategoryProps> = ({mainCategory}) => {
         <Modal modalOpen={openModalDelete} setModalOpen={setOpenModalDelete} >
           <h3 className="text-lg">선택한 대분류 코드를 삭제 할까요?</h3>
           <div className="modal-action">
-            <button className="btn" onClick={() => onDeleteCategory(mainCategory.id)}>
+            <button className="btn" onClick={() => onDeleteCategory(mainCategory.id as number )}>
               Yes
             </button>
           </div>
