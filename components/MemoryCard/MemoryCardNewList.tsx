@@ -93,10 +93,7 @@ const MemoryCardNewList = () => {
     }, [data, isPreviousData, page, queryClient])
 
     const searchMemoryCardHandle =  async ( ) => {
-
-
         //alert('click')
-
         //TODO 메모리카드 검색하기 - AddMemoryCard
         // const result = await
         const param: MemoryCardSearchParam = {
@@ -104,7 +101,6 @@ const MemoryCardNewList = () => {
             mainCategoryId: mainCategorySearch,
             size: 10,
             page: 0,
-
         }
         const data
           = await axios.get(`http://localhost:8080/api/memoryCard/next/search?page=${ param.page}&mainCategoryId=${param.mainCategoryId}`)
