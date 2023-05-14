@@ -22,6 +22,7 @@ const MemoryCardPage = () => {
   }, [])
 
 
+
     return ( mounted &&
         <div>
             <div style={{ justifyContent: "center", padding: "10px"}}>
@@ -29,8 +30,8 @@ const MemoryCardPage = () => {
             </div>
             <div className="justify-center">
                 <QueryClientProvider client={queryClient}>
-                    <AddMemoryCard />
                     <MemoryCardPageList  />
+                  <AddMemoryCard />
                     <ReactQueryDevtools initialIsOpen />
                 </QueryClientProvider>
             </div>

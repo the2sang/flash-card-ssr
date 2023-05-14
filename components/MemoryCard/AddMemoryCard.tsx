@@ -203,9 +203,7 @@ const AddMemoryCard = () => {
       <>
         <div className="justify-center ml-10 mr-10">
           <ToastContainer />
-
-          <div className="flex w-36 self-end">
-
+          <div className="flex w-36 self-end pb-5">
             <Button
                 onClick={() => setModalOpen(true) }
                 className='flex rounded-box btn-sm mt-3 w-full text-white transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-50'>
@@ -213,10 +211,10 @@ const AddMemoryCard = () => {
             </Button>
           </div>
           <ModalForm modalOpen={modalOpen} setModalOpen={setModalOpen} >
-            <form onSubmit={handleSubmit} ref={cardFormRef} className="m-1 border-2 p-5 m-10">
-              <h3 className="font-bold text-lg">문제 추가하기</h3>
+            <form onSubmit={handleSubmit} ref={cardFormRef} className="m-1 border-2 border-blue-50 p-5 m-10">
+              {/*<h4 className="font-bold text-lg">문제 추가하기</h4>*/}
               <div className="modal-new-boxm-5 p-3 ">
-                <div className="flex-col space-x-3 mb-3">
+                <div className="flex-col space-x-3 mb-2">
                   <select ref={questionTeypRef} className="select select-bordered select-sm ">
                     <option disabled selected>문제유형</option>
                     <option value={1} >주관식</option>
@@ -251,10 +249,10 @@ const AddMemoryCard = () => {
                   </datalist>
                 </div>
                 {/*//TODO 중분류 코드 추가하기*/}
-                <div className="mb-3">
+                <div className="mb-2">
 
                 </div>
-                <div className="mb-3" >
+                <div className="mb-2" >
                   <label>
                     <span className="label-text">대분류</span>
                   </label>
@@ -274,7 +272,7 @@ const AddMemoryCard = () => {
                     ))}
                   </select>
                 </div>
-                <div className="mb-3">
+                <div className="mb-2">
                   <label >
                     <span className="label-text">질문</span>
                   </label>
@@ -287,7 +285,7 @@ const AddMemoryCard = () => {
                       className="input input-sm input-bordered w-full"
                   />
                 </div>
-                <div className="mb-3"   >
+                <div className="mb-2"   >
                   <label >
                     <span className="label-text" onClick={()=> {setShowEx(!showEx)}}  >부연 설명(if click then show)</span>
                   </label>
@@ -298,7 +296,7 @@ const AddMemoryCard = () => {
                           className="textarea textarea-bordered textarea-md w-full" />
                   }
                 </div>
-                <div className="mb-3">
+                <div className="mb-2">
                   <label >
                     <span className="label-text">문항1</span>
                   </label>
@@ -311,7 +309,7 @@ const AddMemoryCard = () => {
                       className="input input-sm input-bordered w-full"
                   />
                 </div>
-                <div className="mb-3">
+                <div className="mb-2">
                   <label >
                     <span className="label-text">문항2</span>
                   </label>
@@ -324,7 +322,7 @@ const AddMemoryCard = () => {
                       className="input input-sm  input-bordered w-full"
                   />
                 </div>
-                <div className="mb-3">
+                <div className="mb-2">
                   <label >
                     <span className="label-text">문항3</span>
                   </label>
@@ -337,7 +335,7 @@ const AddMemoryCard = () => {
                       className="input input-sm input-bordered w-full"
                   />
                 </div>
-                <div className="mb-3">
+                <div className="mb-2">
                   <label >
                     <span className="label-text">문항4</span>
                   </label>
@@ -350,7 +348,7 @@ const AddMemoryCard = () => {
                       className="input input-sm input-bordered w-full"
                   />
                 </div>
-                <div className="mb-3">
+                <div className="mb-2">
                   <label >
                     <span className="label-text">정답(단답형)</span>
                   </label>
@@ -364,7 +362,7 @@ const AddMemoryCard = () => {
                   />
                 </div>
                 <div className="flex">
-                  <div className="mb-3 mt-2">
+                  <div className="mb-2 mt-2">
                     <button type="submit" disabled={createMemoryCardMutate.isLoading} className="btn w-4/5">
                       {createMemoryCardMutate.isLoading ? "Loading..." : "Create"}
                     </button>
@@ -373,7 +371,7 @@ const AddMemoryCard = () => {
                 </div>
               </div>
             </form>
-            {/*<div className="mb-3 mt-2">*/}
+            {/*<div className="mb-2 mt-2">*/}
             {/*  <button onClick={clearData}  disabled={createMemoryCardMutate.isLoading} className="btn w-4/5">*/}
             {/*    {createMemoryCardMutate.isLoading ? "Loading..." : "Next"}*/}
             {/*  </button>*/}
