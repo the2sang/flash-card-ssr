@@ -29,7 +29,7 @@ const MemoryCardPage = () => {
             <div className="justify-center">
                 <QueryClientProvider client={queryClient}>
                     <MemoryCardPageList  />
-                  <AddMemoryCard />
+                     <AddMemoryCard />
                     <ReactQueryDevtools initialIsOpen />
                 </QueryClientProvider>
             </div>

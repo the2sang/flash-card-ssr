@@ -92,13 +92,12 @@ export type SelectOption = {
 }
 
 export type MemoryCardSearchParam = {
-  mainCategoryId?: string,
-  middleCategoryId?: string,
+  mainCategoryId?: number | undefined,
+  middleCategoryId?: number,
   completed?: string,
   question?: string,
   size: number,
-  page: number
-
+  page: number,
 }
 
 // export type MemoryCardPage = {

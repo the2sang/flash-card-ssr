@@ -10,10 +10,9 @@ import MemoryCard from "./MemoryCard";
 import {QueryClient} from "@tanstack/query-core"
 import axios from "axios";
 import {QueryClientProvider, useQuery, useQueryClient} from "@tanstack/react-query";
-import React, {useCallback, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import {getAllMemoryCard, getAllMemoryCardPage, searchMemoryCard} from "@/app/api/memoryCardApi";
 import Pagination from "@/components/Pagination";
-import {useRouter} from "next/router";
 import { useFetch} from "usehooks-ts";
 import {Button} from "@/components/common/Button";
 import {getMainCategorySelect} from "@/app/api/mainCategoryApi";
@@ -45,7 +44,7 @@ const MemoryCardNewList = () => {
     //const router = useRouter()
 
     const queryClient: QueryClient = useQueryClient();
-    const[page, setPage] = React.useState(0);
+    const[page, setPage] = React.useState<number>(0);
 
     const [hasMore, setHasMore] = React.useState<boolean>(true);
 
@@ -58,41 +57,54 @@ const MemoryCardNewList = () => {
 
     const [middleCategorySelectData, setMiddleCategorySelectData] = useState<SelectOption[]>()
 
-    const [middleCategorySearch, setMiddleCategorySearch] = useState<string>("")
-    const [mainCategorySearch, setMainCategorySearch] = useState<string>("")
+    const [middleCategorySearch, setMiddleCategorySearch] = useState<number>(1)
+    const [mainCategorySearch, setMainCategorySearch] = useState<number>(1)
 
     const [showEx, setShowEx] = useState<boolean>(false)
 
     const [toggle, setToggle] = useState<boolean>(false)
 
     const [searchPageData, setSearchPageData] = useState<TMemoryCardPages>()
+    const [totalElements, setTotalElements] = useState<number>(0)
 
-
-    // async function fetchMemoryCards(page = 0) {
-    //     const { data } = await axios.get(`http://localhost:8080/api/memoryCard/next?page=${page}`)
-    //     let totalPages:number = data.page.totalPages
-    //     let pageCount = page * 10
-    //     return data;
-    // }
+    const param: MemoryCardSearchParam = {
+        mainCategoryId: mainCategorySearch,
+        size: 10,
+        page: page,
+        nextPage: page + 1
+    }
 
     const { status, data, error, isFetching, isPreviousData } = useQuery({
-        queryKey: ['memoryCards', page],
-        queryFn: () => fetchMemoryCards(page),
+        queryKey: ['memoryCards', page ],
+        queryFn: () => onSearch(),
         keepPreviousData: true,
-        staleTime: 1000,
+        staleTime: 100000,
     })
 
     // Prefetch the next page!
     React.useEffect(() => {
-        if (!isPreviousData && hasMore) {
+        console.log(page)
+        if (!isPreviousData && hasMore && page) {
             queryClient.prefetchQuery({
                 queryKey: ['memoryCards', page + 1],
-                queryFn: () => fetchMemoryCards(page + 1),
+                queryFn: () =>  onSearch()
+            })
+        }
+        if (isPreviousData) {
+            queryClient.prefetchQuery({
+                queryKey: ['memoryCards', page - 1],
+                queryFn: () => onSearch()
             })
         }
     }, [data, isPreviousData, page, queryClient])
 
-    const searchMemoryCardHandle =  async ( ) => {
+
+    const onSearch = useCallback(async () => {
+
+        //setPage(0)
+        // alert(page)
+        // alert('searchMemoryCardHandler')
+
         //alert('click')
         //TODO 메모리카드 검색하기 - AddMemoryCard
         // const result = await
@@ -100,23 +112,34 @@ const MemoryCardNewList = () => {
             middleCategoryId: middleCategorySearch,
             mainCategoryId: mainCategorySearch,
             size: 10,
-            page: 0,
+            page: page,
         }
+
         const data
-          = await axios.get(`http://localhost:8080/api/memoryCard/next/search?page=${ param.page}&mainCategoryId=${param.mainCategoryId}`)
+            = await axios.get(`http://localhost:8080/api/memoryCard/next/search?page=${ param.page}&mainCategoryId=${param.mainCategoryId}`)
+
+        let totalPages:number = data.data.page.totalPages
+        // let pageCount = page * 10
+        setMainCategorySearch(param.mainCategoryId)
+        setHasMore(param.page < totalPages - 1 ? true : false)
         setSearchPageData(data.data)
-        console.log(data)
-        return {data};
-    }
+        setTotalElements(data.data.page.totalElements)
+        setPage(page)
+    }, [page, mainCategorySearch, isPreviousData, hasMore]);
 
 
-    function showExplanation(e: React.KeyboardEvent<HTMLInputElement>) {
-        e.preventDefault()
-        //alert("hi")
+    const mainCategoryCallback = useCallback(
+        async (e:React.ChangeEvent<HTMLSelectElement>) => {
+            e.preventDefault()
+            //alert(e.target.value)
+            //setMainCategorySelectOption(e.target.value)
+            //const param = mainCategoryOptionRef.current?.value!
+            console.log(e.target.value)
+            setMainCategorySearch(Number(e.target.value))
+        },
+        [mainCategorySearch]
+    );
 
-        setShowEx(true)
-        // e.target.visible = true
-    }
 
     //대분류 검색 코드 가져오기
     const mainCategorySelectQuery = useQuery({
@@ -129,51 +152,15 @@ const MemoryCardNewList = () => {
         return <h1>{JSON.stringify(mainCategorySelectQuery.error)}</h1>
     }
 
-
-    const selectMiddleCategoryByMain = async (id: number = 1 ) => {
-
-
-        return await getMiddleCategoryByMainCatId(id)
-    }
-
-    // async function selectMainCategoryHandle(e:React.ChangeEvent<HTMLSelectElement>) {
-    const selectMainCategoryHandle = async (e:React.ChangeEvent<HTMLSelectElement>) => {
-        e.preventDefault()
-        //alert(e.target.value)
-        //setMainCategorySelectOption(e.target.value)
-        //const param = mainCategoryOptionRef.current?.value!
-        console.log(e.target.value)
-        setMainCategorySearch(e.target.value)
-
-    }
-
-
-
-    async function fetchMemoryCards(page = 0) {
-        const { data } = await axios.get(`http://localhost:8080/api/memoryCard/next?page=${page}`)
-        //const data = await getAllMemoryCardPage(page)
-        let totalPages:number = data.page.totalPages
-        let pageCount = page * 10
-        console.log(data)
-        //alert(data.page.totalElements)
-        // setHasMore(page < data.page.size ? true : false)
-        setHasMore(page < totalPages ? true : false)
-        setSearchPageData(data)
-        return data;
-    }
-
-
-
-
     return (
         <>
             <div className="flex flex-col justify-start ml-5">
                 <div className="grid h-20 bg-white rounded-box place-items-start max-w-fit">
                     <div className="flex mt-5 ">
-                        <select onChange={(event) => selectMainCategoryHandle(event)} ref={mainCategoryIdRef} className="select select-bordered select-sm ml-3 mt-0.5">
+                        <select onChange={(event) => mainCategoryCallback(event)}  className="select select-bordered select-sm ml-3 mt-0.5">
                             <option disabled selected>대분류</option>
                             {mainCategorySelectQuery.data?.list.map((option: SelectOption) => (
-                                <option ref={mainCategoryOptionRef}  value={option.value}>{option.label}</option>
+                                <option  value={option.value}>{option.label}</option>
                             ))}
                         </select>
                         {/*<select className="select select-bordered select-sm ml-3 mt-0.5">*/}
@@ -200,7 +187,7 @@ const MemoryCardNewList = () => {
                                 <input type="checkbox" id="completedCheck" defaultChecked={false} className="checkbox checkbox-info" />
                             </label>
                         </div>
-                        <Button onClick={()=> searchMemoryCardHandle()} className="btm-sm rounded-box ml-5 mr-5">검색하기</Button>
+                        <Button onClick={()=>  onSearch()} className="btm-sm rounded-box ml-5 mr-5">검색하기</Button>
                     </div>
 
                 </div>
@@ -234,9 +221,11 @@ const MemoryCardNewList = () => {
                 </table>
                 <div className="flex rounded bg-white mt-3">
                     <div className="flex m-3 text-lg text-left mt-5">현재 페이지: {page + 1}</div>
+                    <div className="flex m-3 text-lg text left mt-5">Total: {totalElements}</div>
                     <div className="flex mt-3 mb-3">
                         <Button className="rounded-s-lg self-start"
-                                onClick={() => setPage((old) => Math.max(old - 1, 0))}
+                                // onClick={() => setPage((old) => Math.max(old - 1, 0))}
+                            onClick={() => setPage(old => Math.max(old-1, 0))}
                                 disabled={page === 0}
                         >
                             Previous

@@ -245,7 +245,7 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
                                 </div>
                                 <div className="mb-3">
                                     <button type="submit" disabled={saveMemoryCard.isLoading} className="btn w-1/6">
-                                        {saveMemoryCard.isLoading ? "Loading..." : "Create"}
+                                        {saveMemoryCard.isLoading ? "Loading..." : "Update"}
                                     </button>
                                 </div>
                             </div>
