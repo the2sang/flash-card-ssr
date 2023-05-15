@@ -45,25 +45,17 @@ const MemoryCardNewList = () => {
 
     const queryClient: QueryClient = useQueryClient();
     const[page, setPage] = React.useState<number>(0);
-
     const [hasMore, setHasMore] = React.useState<boolean>(true);
-
     const searchQuestionRef = useRef<HTMLInputElement | null>(null)
     const mainCategoryIdRef = useRef<HTMLSelectElement | null>(null)
     const mainCategoryOptionRef = useRef<HTMLOptionElement | null>(null)
-
     const middleCategoryIdRef = useRef<HTMLSelectElement | null>(null)
     const [mainCategoryId, setMainCategoryId] = useState<string>("1")
-
     const [middleCategorySelectData, setMiddleCategorySelectData] = useState<SelectOption[]>()
-
     const [middleCategorySearch, setMiddleCategorySearch] = useState<number>(1)
     const [mainCategorySearch, setMainCategorySearch] = useState<number>(1)
-
     const [showEx, setShowEx] = useState<boolean>(false)
-
     const [toggle, setToggle] = useState<boolean>(false)
-
     const [searchPageData, setSearchPageData] = useState<TMemoryCardPages>()
     const [totalElements, setTotalElements] = useState<number>(0)
 
@@ -71,7 +63,6 @@ const MemoryCardNewList = () => {
         mainCategoryId: mainCategorySearch,
         size: 10,
         page: page,
-        nextPage: page + 1
     }
 
     const { status, data, error, isFetching, isPreviousData } = useQuery({
@@ -101,11 +92,6 @@ const MemoryCardNewList = () => {
 
     const onSearch = useCallback(async () => {
 
-        //setPage(0)
-        // alert(page)
-        // alert('searchMemoryCardHandler')
-
-        //alert('click')
         //TODO 메모리카드 검색하기 - AddMemoryCard
         // const result = await
         const param: MemoryCardSearchParam = {
@@ -125,6 +111,7 @@ const MemoryCardNewList = () => {
         setSearchPageData(data.data)
         setTotalElements(data.data.page.totalElements)
         setPage(page)
+      // return data
     }, [page, mainCategorySearch, isPreviousData, hasMore]);
 
 
