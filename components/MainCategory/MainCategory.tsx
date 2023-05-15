@@ -3,85 +3,75 @@
 import {TMainCategory} from "@/types/types";
 import {FiEdit, FiTrash2} from "react-icons/fi";
 import Modal from "@/components/Modal";
-import React, {FormEventHandler, useState} from "react";
+import React, {FormEventHandler, useCallback, useState} from "react";
 import {useRouter} from "next/navigation";
 import {deleteMainCategory, editMainCategory, getAllMainCategory} from "@/app/api/mainCategoryApi";
-import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import { toast, ToastContainer } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
 
 interface CategoryProps {
   id: string | undefined;
   mainCategory: TMainCategory
 }
 
-// interface CategoryTypes {
-//   id: number;
-//   mainCategory: TMainCategory;
-// }
-
 const MainCategory: React.FC<CategoryProps> = ({mainCategory}) => {
   const router = useRouter();
-  const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
-  const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
-  const [categoryEdit, setCategoryEdit] = useState<string>(mainCategory.name);
+  const [openModalEdit, setOpenModalEdit] = useState<boolean>(false)
+  const [openModalDelete, setOpenModalDelete] = useState<boolean>(false)
+  const [categoryEdit, setCategoryEdit] = useState<string>(mainCategory.name)
   const queryClient = useQueryClient()
+  const [reload, setReload] = useState<Date>(new Date)
 
-  // const handleSubmitEditCategory: FormEventHandler<HTMLFormElement> = async (e) => {
-  //   e.preventDefault();
-  //   const updateData = await editMainCategory({
-  //     id: mainCategory.id,
-  //     name: categoryEdit
-  //   });
-  //   setOpenModalEdit(false);
-  //   console.log(updateData.name);
-  //   //setCategoryEdit(updateData.name);
-  //   router.refresh();
-  //
-  // }
+  const reloadData2 = useCallback(() => {
 
-
-
+     // alert('저장되었습니다.')
+    useQuery({
+      queryKey: ['mainCategorys'],
+      queryFn: () => getAllMainCategory(),
+      keepPreviousData: true,
+      // cacheTime: 1000,
+      // staleTime: 1000,
+    })
+  }, [reload]);
 
   const saveMainCategory =
     useMutation((mainCategory: TMainCategory) => editMainCategory({
       id: mainCategory.id,
       name: categoryEdit
-  }));
+    }));
+
 
   const onSaveMainCategory = () => {
-    saveMainCategory.mutate(mainCategory);
-    setOpenModalEdit(false);
-    //router.refresh();
+    saveMainCategory.mutate(mainCategory)
+    setOpenModalEdit(false)
+    setReload(new Date())
+    reloadData2()
+
+    router.push('/MainCategory')
   }
+
+  const showToastMessage = () => {
+    toast.success('Success Notification !', {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 1000,
+    });
+  };
 
   const deleteMainCat
     = useMutation((id: string | number ) => deleteMainCategory(id));
 
   const onDeleteCategory = (id: string | number ) => {
-    deleteMainCat.mutate(id);
-    setOpenModalDelete(false);
-    router.refresh();
+    deleteMainCat.mutate(id)
+    showToastMessage()
+    setOpenModalDelete(false)
+    setReload(new Date())
+    // reloadData2()
+    router.refresh()
   }
 
-  // const updateCat = async (newCat: TMainCategory): Promise<TMainCategory> => {
-  //   console.log(newCat);
-  //   const {data} = await editMainCategory(newCat);
-  //   setOpenModalEdit(false);
-  //   router.refresh();
-  //   return data;
-  // }
-
-
-  // const { mutate, isLoading, isError, error, isSuccess }
-  //   = useMutation(updateCat);
-
-  // const handleDeleteCategory = async (id: string | undefined) => {
-  //   //console.log(id);
-  //   await deleteMainCategory(id);
-  //   setOpenModalDelete(false);
-  //   router.refresh();
-  // }
-
   return (
+
     <tr key={mainCategory.id}>
       <td className="w-full" >{mainCategory.name}</td>
       <td className="flex gap-5">
@@ -91,6 +81,7 @@ const MainCategory: React.FC<CategoryProps> = ({mainCategory}) => {
           className="text-blue-500"
           size={23}
         />
+        <ToastContainer />
         <Modal modalOpen={openModalEdit} setModalOpen={setOpenModalEdit} >
           <form onSubmit={onSaveMainCategory}>
             <h3 className="font-bold text-lg">Edit task</h3>
@@ -117,7 +108,8 @@ const MainCategory: React.FC<CategoryProps> = ({mainCategory}) => {
         </Modal>
       </td>
     </tr>
-  );
-};
+
+  )
+}
 
 export default MainCategory

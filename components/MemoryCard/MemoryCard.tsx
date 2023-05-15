@@ -84,7 +84,7 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
         saveMemoryCard.mutate(memoryCard);
         //alert(middleCategory?.name)
         setOpenModalEdit(false);
-        //router.refresh();
+        router.refresh();
     }
 
     const deleteMiddleCategory
@@ -122,8 +122,11 @@ const MemoryCard: React.FC<CategoryProps> = ({memoryCard}) => {
                 <ModalForm modalOpen={openModalEdit} setModalOpen={setOpenModalEdit}>
                     <div className="">
                         <form onSubmit={onSaveMiddleCategory} className="w-full">
-                            <h3 className="font-bold text-lg ml-20">문제 수정하기</h3>
+
                             <div className="modal-new-box border-2 p-5">
+                                <div className="flex mb-3 self-start">
+                                    <h4 className="font-bold text-lg ml-1">문제 수정하기</h4>
+                                </div>
                                 <div className="flex-col space-x-3 mb-2">
                                     <select ref={questionTeypRef} defaultValue={memoryCard?.questionType}
                                             className="select select-bordered select-sm " onChange={onSelectChange}>

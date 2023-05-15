@@ -10,15 +10,6 @@ interface CategoryProps {
   mainCategorys: TMainCategorys
 }
 
-// async function fetchData(param:number = 1) {
-//   const {data} = await axios.get("http://localhost:8080/api/mainCategory/all", {
-//
-//   })
-//   // const {data} = await getAllMainCategory();
-//   //console.log(data);
-//   return data;
-// }
-
 const MainCategoryList = () => {
 
   const queryClient: QueryClient = useQueryClient();
@@ -27,8 +18,8 @@ const MainCategoryList = () => {
     queryKey: ['mainCategorys'],
     queryFn: () => getAllMainCategory(),
     keepPreviousData: true,
-    // cacheTime: 1000,
-    // staleTime: 1000,
+    cacheTime: 1000,
+    staleTime: 1000,
   });
 
   if (status === "loading") return <h1>Loading...</h1>
@@ -36,47 +27,25 @@ const MainCategoryList = () => {
     return <h1>{JSON.stringify(error)}</h1>
   }
 
-
-  // React.useEffect(() => {
-  //   if (!isPreviousData && data?.hasMore) {
-  //     queryClient.prefetchQuery({
-  //       queryKey: ['mainCategorys'],
-  //       queryFn: () => getAllMainCategory,
-  //       // staleTime: 1000,
-  //     })
-  //   }
-  // }, [data, isPreviousData, queryClient])
-
-  // const [saveMainCategory, setSaveMainCategory] = React.useState<TMainCategorys>();
-  //
-  // const resetData = async () => {
-  //   const result =  await getAllMainCategory();
-  //   setSaveMainCategory(result);
-  //   console.log(result);
-  //
-  // }
-
-
-
   return (
     <>
-    <div className="flex-auto m-5">
-      <table className="table w-full">
-        {/* head */}
-        <thead>
-        <tr>
-          <th className="text-blue-500 text-lg">대분류 코드</th>
-          <th className="text-blue-500 text-lg">실행</th>
-        </tr>
-        </thead>
-        <tbody>
+      <div className="flex-auto m-5">
+        <table className="table w-full">
+          {/* head */}
+          <thead>
+          <tr>
+            <th className="text-blue-500 text-lg">대분류 코드</th>
+            <th className="text-blue-500 text-lg">실행</th>
+          </tr>
+          </thead>
+          <tbody>
 
-        {data?.list.map((mainCategory) => (
-          <MainCategory id={mainCategory.id} key={mainCategory.id} mainCategory={mainCategory} />
-        ))}
-        </tbody>
-      </table>
-    </div>
+          {data?.list.map((mainCategory) => (
+            <MainCategory id={mainCategory.id} key={mainCategory.id} mainCategory={mainCategory} />
+          ))}
+          </tbody>
+        </table>
+      </div>
       {/*<div className="flex justify-center pr-24 pl-24">*/}
       {/*  <button className='btn btn-primary w-full m-5 mr-5' onClick={() => resetData()} >가져오기</button>*/}
       {/*</div>*/}

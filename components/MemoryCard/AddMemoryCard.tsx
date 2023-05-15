@@ -26,9 +26,6 @@ interface CategoryProps {
   id: string | undefined;
   mainCategory: TMainCategory
 }
-
-
-
 const AddMemoryCard = () => {
 
   const showToastMessage = () => {
@@ -41,7 +38,6 @@ const AddMemoryCard = () => {
   const queryClient = useQueryClient()
   const router  = useRouter();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-
   const questionRef = useRef<HTMLInputElement | null>(null)
   const explationRef = useRef<HTMLTextAreaElement | null>(null)
   const num1Ref = useRef<HTMLInputElement | null >(null)
@@ -56,27 +52,16 @@ const AddMemoryCard = () => {
   const searchQuestionRef = useRef<HTMLInputElement | null>(null)
   const mainCategoryIdRef = useRef<HTMLSelectElement | null>(null)
   const mainCategoryOptionRef = useRef<HTMLOptionElement | null>(null)
-
   const middleCategoryIdRef = useRef<HTMLSelectElement | null>(null)
   const [mainCategoryId, setMainCategoryId] = useState<string>("1")
-
   const [middleCategorySelectData, setMiddleCategorySelectData] = useState<SelectOption[]>()
-
   const [middleCategorySearch, setMiddleCategorySearch] = useState<string>("");
-
-
   const [newCard, setNewCard] = useState<TMemoryCardAdd>()
-
   const cardFormRef = useRef<HTMLFormElement | null>(null)
-
   const [showEx, setShowEx] = useState<boolean>(false)
-
   const [toggle, setToggle] = useState<boolean>(false)
 
   //const [middleCategorySelectData, setMiddleCategorySelectData] = useState<SelectOption[]>()
-
-
-
   async function fetchMemoryCards(page = 0) {
     const { data } = await axios.get(`http://localhost:8080/api/memoryCard/next?page=${page}`)
     let totalPages:number = data.page.totalPages
@@ -94,6 +79,7 @@ const AddMemoryCard = () => {
       queryClient.setQueryData(["memoryCards"], data)
       queryClient.invalidateQueries(["memoryCards"], {exact: true})
       revalidatePath("/memoryCard")
+
     }
   })
   const setupData = (): TMemoryCardAdd => {
@@ -117,9 +103,7 @@ const AddMemoryCard = () => {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-
     setNewCard(setupData)
-
     createMemoryCardMutate.mutate({
       newCard
     })
@@ -138,7 +122,6 @@ const AddMemoryCard = () => {
   function showExplanation(e: React.KeyboardEvent<HTMLInputElement>) {
     e.preventDefault()
     //alert("hi")
-
     setShowEx(true)
     // e.target.visible = true
   }
@@ -154,10 +137,7 @@ const AddMemoryCard = () => {
     return <h1>{JSON.stringify(mainCategorySelectQuery.error)}</h1>
   }
 
-
   const selectMiddleCategoryByMain = async (id: number = 1 ) => {
-
-
     return await getMiddleCategoryByMainCatId(id)
   }
 
@@ -195,9 +175,7 @@ const AddMemoryCard = () => {
     }
     const result = await searchMemoryCard(param)
     console.log(result)
-
   }
-
 
   return (
       <>
@@ -212,18 +190,24 @@ const AddMemoryCard = () => {
           </div>
           <ModalForm modalOpen={modalOpen} setModalOpen={setModalOpen} >
             <form onSubmit={handleSubmit} ref={cardFormRef} className="m-1 border-2 border-blue-50 p-5 m-10">
-              {/*<h4 className="font-bold text-lg">문제 추가하기</h4>*/}
+              <h4 className="font-bold text-lg">문제 추가하기</h4>
               <div className="modal-new-boxm-5 p-3 ">
                 <div className="flex-col space-x-3 mb-2">
+                  <label>
+                    <span className="label-text">문제유형</span>
+                  </label>
                   <select ref={questionTeypRef} className="select select-bordered select-sm ">
-                    <option disabled selected>문제유형</option>
+                    <option disabled >문제유형</option>
                     <option value={1} >주관식</option>
-                    <option value={2}>객관식</option>
+                    <option value={2} selected >객관식</option>
                   </select>
+                  <label>
+                    <span className="label-text">난이도</span>
+                  </label>
                   <select ref={levelRef} className="select select-bordered select-sm">
-                    <option disabled selected>난이도</option>
+                    <option disabled >난이도</option>
                     <option ref={levelRef} value={1}>상</option>
-                    <option ref={levelRef} value={2}>중</option>
+                    <option ref={levelRef} value={2} selected >중</option>
                     <option ref={levelRef}  value={3}>하</option>
                   </select>
                   {/*<label >*/}
@@ -238,7 +222,7 @@ const AddMemoryCard = () => {
                       type="text"
                       ref={rightAnswerNumRef}
                       placeholder="정답"
-                      className="input input-sm input-bordered w-1/3"
+                      className="input input-sm input-bordered w-1/5"
                       list="answer"
                   />
                   <datalist id="answer">

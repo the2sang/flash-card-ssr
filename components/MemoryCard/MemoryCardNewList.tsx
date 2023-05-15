@@ -142,7 +142,7 @@ const MemoryCardNewList = () => {
     return (
         <>
             <div className="flex flex-col justify-start ml-5">
-                <div className="grid h-20 bg-white rounded-box place-items-start max-w-fit">
+                <div className="grid h-20 bg-white rounded place-items-start max-w-fit">
                     <div className="flex mt-5 ">
                         <select onChange={(event) => mainCategoryCallback(event)}  className="select select-bordered select-sm ml-3 mt-0.5">
                             <option disabled selected>대분류</option>
@@ -184,7 +184,7 @@ const MemoryCardNewList = () => {
             <div className="justify-center m-5">
                 {/*<p>{console.log(JSON.stringify(data))}</p>*/}
                 {/*<Pagination page={1} perPage={10} itemCount={data?.list.length}/>*/}
-                <table className="table table-compact">
+                <table className="table table-compact rounded-b-box">
                     {/* head */}
                     <thead>
                     <tr>

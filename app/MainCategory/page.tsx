@@ -18,19 +18,15 @@ const MainCategoryPage = () => {
 
   return (
     <>
-    <div style={{width: "500px", justifyContent: "center", padding: "10px"}}>
-        <h1 className='text-2xl font-bold'>대분류 코드 목록</h1>
-    </div>
-    <div className="justify-center">
-      <QueryClientProvider client={queryClient}>
-        <AddMainCategory />
-        <MainCategoryList    />
-        <ReactQueryDevtools initialIsOpen />
+      <div className="justify-center">
+        <QueryClientProvider client={queryClient}>
+          <AddMainCategory />
+          <MainCategoryList    />
+          <ReactQueryDevtools initialIsOpen />
         </QueryClientProvider>
-    </div>
+      </div>
     </>
   )
 }
 
 export default MainCategoryPage
-
